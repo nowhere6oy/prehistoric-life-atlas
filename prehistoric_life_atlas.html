@@ -1,0 +1,1713 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="seo-title">Палеонтологическая Энциклопедия — Древние формы жизни</title>
+
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#2563eb">
+  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2972/2972231.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  
+  <meta name="description" id="seo-description" content="Исследуйте эволюцию, анатомию и масштаб вымерших существ планеты в интерактивной форме.">
+  <meta property="og:title" id="og-title" content="Палеонтологическая Энциклопедия — Древние формы жизни">
+  <meta property="og:description" id="og-description" content="Исследуйте эволюцию, анатомию и масштаб вымерших существ планеты в интерактивной форме.">
+  <meta property="og:type" content="website">
+  
+  <script type="application/ld+json" id="schema-json"></script>
+
+  <style>
+    :root {
+      --font-sans: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+      --bg-main: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-secondary: #f1f5f9;
+      --border-color: #cbd5e1;
+      --border-light: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --primary: #2563eb;
+      --primary-light: #dbeafe;
+      --radius-lg: 14px;
+      --radius-md: 8px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.05);
+      --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-main: #0f172a;
+        --bg-card: #1e293b;
+        --bg-secondary: #334155;
+        --border-color: #475569;
+        --border-light: #334155;
+        --text-main: #f8fafc;
+        --text-muted: #94a3b8;
+        --primary: #3b82f6;
+        --primary-light: #1e3a8a;
+      }
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      margin: 0;
+      padding: 0;
+      line-height: 1.5;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem;
+    }
+
+    /* Хронологическая шкала */
+    .timeline-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .timeline-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--text-muted);
+      margin: 0 0 10px 0;
+      font-weight: 700;
+    }
+    .timeline-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      scroll-behavior: smooth;
+      /* Плавный инерционный скролл на смартфонах */
+      -webkit-overflow-scrolling: touch;
+    }
+    .timeline-scroll::-webkit-scrollbar {
+      height: 6px;
+    }
+    .timeline-scroll::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 4px;
+    }
+
+    /* Бейджи периодов */
+    .era-badge {
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: var(--radius-md);
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .era-btn {
+      border: 1px solid var(--border-light);
+      background: var(--bg-main);
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 8px 14px;
+      border-radius: var(--radius-md);
+      transition: var(--transition-smooth);
+      min-width: 130px;
+    }
+    .era-btn .era-name { font-weight: 600; font-size: 13px; }
+    .era-btn .era-range { font-size: 11px; color: var(--text-muted); }
+    .era-btn .era-count { font-size: 10px; opacity: 0.8; margin-top: 4px; text-decoration: underline; }
+    
+    /* Стили периодов */
+    .precambrian { --ebg: #f1f5f9; --etxt: #475569; }
+    .cambrian { --ebg: #fef3c7; --etxt: #92400e; }
+    .ordovician { --ebg: #ecfeff; --etxt: #155e75; }
+    .silurian { --ebg: #e0f2fe; --etxt: #075985; }
+    .devonian { --ebg: #ffedd5; --etxt: #9a3412; }
+    .carboniferous { --ebg: #fef2f2; --etxt: #991b1b; }
+    .permian { --ebg: #fce7f3; --etxt: #9d174d; }
+    .triassic { --ebg: #e1f5ee; --etxt: #085041; }
+    .jurassic { --ebg: #eaf3de; --etxt: #27500a; }
+    .cretaceous { --ebg: #e6f1fb; --etxt: #0c447c; }
+    .paleogene { --ebg: #f3e8ff; --etxt: #6b21a8; }
+    .neogene { --ebg: #edf2f7; --etxt: #2d3748; }
+    .quaternary { --ebg: #eeedfe; --etxt: #26215c; }
+
+    .era-badge-color { background: var(--ebg); color: var(--etxt); }
+    .era-btn.active { background: var(--primary); border-color: var(--primary); color: #fff !important; }
+    .era-btn.active .era-range, .era-btn.active .era-count { color: #fff; opacity: 0.9; }
+
+    /* Панель управления */
+    .controls {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    .search-wrap {
+      position: relative;
+      flex: 1;
+      min-width: 260px;
+    }
+    .search-wrap i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+    }
+    .search-wrap input, .sort-select {
+      width: 100%;
+      padding: 10px 12px 10px 38px;
+      box-sizing: border-box;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      background: var(--bg-card);
+      color: var(--text-main);
+      font-size: 14px;
+    }
+    .sort-select {
+      padding-left: 12px;
+      width: auto;
+      min-width: 180px;
+      cursor: pointer;
+    }
+    .filter-btn {
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-card);
+      color: var(--text-muted);
+      transition: var(--transition-smooth);
+    }
+    .filter-btn.active {
+      background: var(--bg-secondary);
+      color: var(--text-main);
+      border-color: var(--text-main);
+    }
+
+    /* Сетка карточек */
+    .creatures-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 16px;
+    }
+    .creature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition-smooth);
+      animation: cardAppear 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+      position: relative;
+      overflow: hidden;
+    }
+    .creature-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-color);
+      box-shadow: var(--shadow-md);
+    }
+    @keyframes cardAppear {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Фоновые изображения карточек */
+    .card-header-zone {
+      position: relative;
+      margin: -1.25rem -1.25rem 0 -1.25rem;
+      padding: 1.25rem 1.25rem 0.5rem 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      min-height: 55px;
+    }
+    .card-header-bg {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-size: cover;
+      background-position: center;
+      opacity: 0.35;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .card-header-content {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+    }
+    .card-header-icon {
+      position: relative;
+      z-index: 1;
+      font-size: 20px;
+      color: var(--text-muted);
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .stat-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .stat-cell {
+      background: var(--bg-main);
+      border-radius: var(--radius-md);
+      padding: 8px 10px;
+      border: 1px solid var(--border-light);
+      position: relative;
+      z-index: 1;
+    }
+    .stat-cell p { margin: 0; }
+    .stat-label { font-size: 11px; color: var(--text-muted); display: flex; align-items: center; gap: 4px; }
+    .stat-value { font-size: 13px; font-weight: 600; margin-top: 2px; }
+
+    .btn-action {
+      background: var(--bg-secondary);
+      color: var(--text-main);
+      border: none;
+      padding: 10px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: var(--transition-smooth);
+      width: 100%;
+      margin-top: auto;
+      position: relative;
+      z-index: 1;
+    }
+    .btn-action:hover { background: var(--primary); color: #ffffff; }
+
+    /* Визуализатор размеров */
+    .size-visualizer {
+      height: 140px;
+      background: linear-gradient(to bottom, #f8fafc, #edf2f7);
+      border-radius: var(--radius-md);
+      border: 1px dashed var(--border-color);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      padding: 0 10px;
+    }
+    @media (prefers-color-scheme: dark) {
+      .size-visualizer { background: linear-gradient(to bottom, #1e293b, #0f172a); }
+    }
+    .sv-ground {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--text-muted);
+    }
+    .sv-human, .sv-creature {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      transition: var(--transition-smooth);
+    }
+    .sv-human i { font-size: 32px; color: #ef4444; line-height: 1; }
+    .sv-creature svg, .sv-creature img { fill: var(--primary); opacity: 0.85; max-height: 115px; }
+
+    /* Просмотр статьи */
+    .article-view {
+      display: none;
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow-md);
+      animation: modalFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .article-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .article-body { padding: 1.5rem; display: flex; flex-direction: column; gap: 1.5rem; }
+    
+    .main-illustration-box {
+      display: none;
+      width: 100%;
+      max-height: 380px;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-light);
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      transition: var(--transition-smooth);
+    }
+    .main-illustration-box:hover {
+      border-color: var(--primary);
+    }
+    .main-illustration-box img {
+      width: 100%;
+      height: 100%;
+      max-height: 380px;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+    .illustration-badge {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      background: rgba(15, 23, 42, 0.75);
+      color: #fff;
+      padding: 4px 10px;
+      font-size: 11px;
+      border-radius: var(--radius-md);
+      backdrop-filter: blur(4px);
+    }
+
+    .back-btn {
+      background: transparent; border: 1px solid var(--border-color); font-size: 13px; padding: 6px 12px;
+      border-radius: var(--radius-md); cursor: pointer; color: var(--text-muted); display: inline-flex;
+      align-items: center; gap: 4px; transition: var(--transition-smooth);
+    }
+    .back-btn:hover { color: var(--text-main); background: var(--bg-secondary); }
+
+    /* Скелетон */
+    .skeleton-wrapper {
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .skeleton-line {
+      background: linear-gradient(90deg, var(--bg-secondary) 25%, var(--border-light) 50%, var(--bg-secondary) 75%);
+      background-size: 200% 100%;
+      animation: loadingSkeleton 1.5s infinite ease-in-out;
+      border-radius: var(--radius-md);
+    }
+    @keyframes loadingSkeleton {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .findings-container {
+      background: var(--bg-secondary);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-light);
+      padding: 14px;
+    }
+
+    /* Лайтбокс */
+    .lightbox-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,23,42,0.85);
+      display: none; align-items: center; justify-content: center; z-index: 2000; backdrop-filter: blur(4px);
+    }
+    .lightbox-content {
+      max-width: 85%; max-height: 85%; background: var(--bg-card); padding: 12px; border-radius: var(--radius-lg);
+      position: relative; display: flex; align-items: center; justify-content: center;
+    }
+    .lightbox-content img { max-width: 100%; max-height: 75vh; object-fit: contain; border-radius: var(--radius-md); }
+
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+
+    /* ───── Новостной раздел ───── */
+    .news-section {
+      margin-top: 2.5rem;
+      border-top: 1px solid var(--border-light);
+      padding-top: 1.75rem;
+    }
+    .news-section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .news-section-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .news-badge-new {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      background: #ef4444;
+      color: #fff;
+      padding: 2px 7px;
+      border-radius: 20px;
+    }
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+    .news-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition-smooth);
+      animation: cardAppear 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .news-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--border-color);
+      box-shadow: var(--shadow-md);
+    }
+    .news-card-header {
+      padding: 14px 16px 10px;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .news-cat-tag {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      padding: 3px 8px;
+      border-radius: 20px;
+    }
+    .news-cat-discovery { background: #dcfce7; color: #166534; }
+    .news-cat-research   { background: #dbeafe; color: #1e40af; }
+    .news-cat-exhibit    { background: #fef3c7; color: #92400e; }
+    .news-cat-tech       { background: #f3e8ff; color: #6b21a8; }
+    @media (prefers-color-scheme: dark) {
+      .news-cat-discovery { background: #14532d; color: #86efac; }
+      .news-cat-research  { background: #1e3a8a; color: #93c5fd; }
+      .news-cat-exhibit   { background: #78350f; color: #fde68a; }
+      .news-cat-tech      { background: #4a1d96; color: #d8b4fe; }
+    }
+    .news-date {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-left: auto;
+    }
+    .news-card-body {
+      padding: 14px 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .news-card-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin: 0;
+      color: var(--text-main);
+      line-height: 1.4;
+    }
+    .news-card-summary {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin: 0;
+      line-height: 1.5;
+      flex: 1;
+    }
+    .news-card-footer {
+      padding: 10px 16px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .news-source {
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .news-read-btn {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--primary);
+      background: var(--primary-light);
+      border: none;
+      padding: 5px 12px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .news-read-btn:hover { opacity: 0.8; }
+    .news-filter-bar {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .news-filter-btn {
+      font-size: 12px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+    .news-filter-btn.active,
+    .news-filter-btn:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    /* ───── Модалка новости ───── */
+    .news-modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(15, 23, 42, 0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1500;
+      backdrop-filter: blur(5px);
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    .news-modal-overlay.open { display: flex; }
+    .news-modal {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.18);
+      width: 100%;
+      max-width: 680px;
+      max-height: 90vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      animation: modalFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .news-modal::-webkit-scrollbar { width: 6px; }
+    .news-modal::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+    .news-modal-header {
+      padding: 18px 20px 14px;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      background: var(--bg-card);
+      z-index: 2;
+    }
+    .news-modal-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .news-modal-close {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      width: 34px; height: 34px;
+      cursor: pointer;
+      font-size: 18px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: var(--transition-smooth);
+    }
+    .news-modal-close:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .news-modal-body {
+      padding: 22px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .news-modal-title {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.35;
+      margin: 0;
+      color: var(--text-main);
+    }
+    .news-modal-byline {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 12px;
+      color: var(--text-muted);
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .news-modal-byline span { display: flex; align-items: center; gap: 4px; }
+    .news-modal-lead {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-main);
+      line-height: 1.6;
+      margin: 0;
+      padding: 14px;
+      background: var(--bg-secondary);
+      border-left: 4px solid var(--primary);
+      border-radius: var(--radius-md);
+    }
+    .news-modal-section-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: var(--text-muted);
+      margin: 0 0 6px 0;
+    }
+    .news-modal-text {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin: 0;
+    }
+    .news-modal-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .news-modal-tag {
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-light);
+      color: var(--text-muted);
+    }
+    .news-modal-footer {
+      padding: 14px 24px 20px;
+      border-top: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .news-modal-source-block {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .news-modal-nav {
+      display: flex;
+      gap: 8px;
+    }
+    .news-nav-btn {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: var(--transition-smooth);
+    }
+    .news-nav-btn:hover:not(:disabled) { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .news-nav-btn:disabled { opacity: 0.35; cursor: default; }
+
+    /* ─── Кнопка «Показать ещё» ─── */
+    #show-more-wrap button:hover {
+      background: var(--primary) !important;
+      color: #fff !important;
+      border-color: var(--primary) !important;
+    }
+    /* ─── Плавное появление при ленивой загрузке ─── */
+    .card-header-bg {
+      transition: opacity 0.4s ease;
+    }
+    .card-header-bg:not([data-lazy-src]) {
+      opacity: 0.35;
+    }
+    .card-header-bg[data-lazy-src] {
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="timeline-container">
+    <p class="timeline-title"><i class="ti ti-timeline" style="vertical-align: -2px; margin-right: 4px;"></i> Геохронологическая временная шкала (Мультивыбор)</p>
+    <div class="timeline-scroll" id="timeline-bar"></div>
+  </div>
+
+  <div id="main-catalog-view">
+    <div style="margin-bottom:1.5rem; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px;">
+      <div>
+        <p style="font-size:11px;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase;margin:0 0 6px">Научно-образовательная энциклопедия</p>
+        <h1 style="font-size:28px;font-weight:700;margin:0 0 6px;color:var(--text-main)">Атлас доисторической жизни</h1>
+        <p style="font-size:14px;color:var(--text-muted);margin:0;max-width:600px">Исследуйте эволюцию, анатомию и масштаб вымерших существ планеты в интерактивной форме.</p>
+      </div>
+      
+      <div id="catalog-stats-block" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; background: var(--bg-card); border: 1px solid var(--border-light); padding: 10px 14px; border-radius: var(--radius-lg); font-size: 11px; box-shadow: var(--shadow-sm); min-width: 280px;"></div>
+    </div>
+
+    <div class="controls">
+      <div class="search-wrap">
+        <i class="ti ti-search" aria-hidden="true"></i>
+        <input id="search-input" type="text" placeholder="Поиск (название, диета, регион, среда, опечатки...)" />
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap" id="category-filters"></div>
+      <select id="sort-select" class="sort-select">
+        <option value="alphabet">По алфавиту (А-Я)</option>
+        <option value="size-desc">По размеру (Гиганты)</option>
+        <option value="size-asc">По размеру (Мелкие)</option>
+        <option value="chrono">Хронология (От древних)</option>
+      </select>
+    </div>
+
+    <p style="font-size:13px;color:var(--text-muted);margin:0 0 1rem; font-weight: 500;" id="counter-lbl">0 видов в каталоге</p>
+    <div class="creatures-grid" id="creatures-grid"></div>
+
+    <!-- Кнопка "Показать ещё" -->
+    <div id="show-more-wrap" style="display:none;justify-content:center;margin-top:1.5rem;">
+      <button
+        onclick="loadMoreCreatures()"
+        style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-md);
+               padding:12px 32px;font-size:14px;font-weight:600;color:var(--text-main);cursor:pointer;
+               display:flex;align-items:center;gap:8px;transition:var(--transition-smooth);"
+        onmouseover="this.style.background='var(--primary)';this.style.color='#fff';this.style.borderColor='var(--primary)'"
+        onmouseout="this.style.background='var(--bg-card)';this.style.color='var(--text-main)';this.style.borderColor='var(--border-color)'">
+        <i class="ti ti-loader-2"></i>
+        <span id="show-more-count">Показать ещё</span>
+      </button>
+    </div>
+
+    <!-- ───── Новостной раздел ───── -->
+    <div class="news-section" id="news-section">
+      <div class="news-section-header">
+        <h2 class="news-section-title">
+          <i class="ti ti-news" style="color:var(--primary)"></i>
+          Новости палеонтологии
+          <span class="news-badge-new">New</span>
+        </h2>
+        <div class="news-filter-bar" id="news-filter-bar">
+          <button class="news-filter-btn active" data-filter="all" onclick="filterNews('all', this)">Все</button>
+          <button class="news-filter-btn" data-filter="discovery" onclick="filterNews('discovery', this)"><i class="ti ti-diamond"></i> Открытия</button>
+          <button class="news-filter-btn" data-filter="research" onclick="filterNews('research', this)"><i class="ti ti-flask"></i> Исследования</button>
+          <button class="news-filter-btn" data-filter="exhibit" onclick="filterNews('exhibit', this)"><i class="ti ti-building-museum"></i> Выставки</button>
+          <button class="news-filter-btn" data-filter="tech" onclick="filterNews('tech', this)"><i class="ti ti-cpu"></i> Технологии</button>
+        </div>
+      </div>
+      <div class="news-grid" id="news-grid"></div>
+    </div>
+  </div>
+
+  <div id="skeleton-loading-view" class="skeleton-wrapper">
+    <div class="skeleton-line" style="height: 45px; width: 40%;"></div>
+    <div class="skeleton-line" style="height: 160px; width: 100%;"></div>
+    <div class="skeleton-line" style="height: 90px; width: 100%;"></div>
+    <div class="skeleton-line" style="height: 200px; width: 100%;"></div>
+  </div>
+
+  <div id="article-page-view" class="article-view">
+    <div class="article-header">
+      <div>
+        <span class="era-badge era-badge-style" id="art-era-badge"></span>
+        <h2 style="margin:6px 0 2px 0;font-size:26px; font-weight: 700;" id="art-name"></h2>
+        <p style="margin:0;font-style:italic;color:var(--text-muted);font-size:15px;" id="art-latin"></p>
+      </div>
+      <button class="back-btn" onclick="navigateToHome()"><i class="ti ti-arrow-back-up"></i> В каталог</button>
+    </div>
+    <div class="article-body">
+      
+      <div class="main-illustration-box" id="art-main-illustration"></div>
+
+      <div>
+        <p style="font-size:12px; font-weight:700; text-transform:uppercase; color:var(--text-muted); margin-bottom:8px;">Карточка биологических характеристик</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); gap: 8px;" id="art-specs-grid"></div>
+      </div>
+
+      <div>
+        <p style="font-size:12px; font-weight:700; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px;">Масштабирование относительно человека (1.75 м)</p>
+        <div class="size-visualizer" id="art-visualizer"></div>
+        <p style="font-size:13px; margin-top:8px; font-style:italic; color:var(--text-main)" id="art-size-comparison-text"></p>
+      </div>
+
+      <div>
+        <p style="font-size:12px; font-weight:700; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px;">Положение вида на геохронологической шкале</p>
+        <div style="display: flex; flex-direction: column; gap: 4px;" id="art-mini-timeline"></div>
+      </div>
+
+      <div>
+        <p style="font-size:12px; font-weight:700; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px;">Палеонтологическая география и находки</p>
+        <div class="findings-container" id="art-map-details" style="font-size: 13px; line-height: 1.5;"></div>
+      </div>
+
+      <div style="background: var(--bg-secondary); border-left: 4px solid var(--primary); padding: 14px; border-radius: var(--radius-md);" id="art-random-fact-box"></div>
+
+      <div style="display: flex; flex-direction: column; gap: 16px; border-top: 1px solid var(--border-light); padding-top: 16px;">
+        <div>
+          <h3 style="font-size:16px; margin:0 0 4px 0; display: flex; align-items: center; gap: 6px;"><i class="ti ti-notes" style="color:var(--primary)"></i> Описание</h3>
+          <p style="font-size:14px; color:var(--text-muted); margin:0; line-height: 1.5;" id="art-enc-desc"></p>
+        </div>
+        <div>
+          <h3 style="font-size:16px; margin:0 0 4px 0; display: flex; align-items: center; gap: 6px;"><i class="ti ti-activity" style="color:var(--primary)"></i> Образ жизни</h3>
+          <p style="font-size:14px; color:var(--text-muted); margin:0; line-height: 1.5;" id="art-enc-lifestyle"></p>
+        </div>
+        <div>
+          <h3 style="font-size:16px; margin:0 0 4px 0; display: flex; align-items: center; gap: 6px;"><i class="ti ti-git-fork" style="color:var(--primary)"></i> Эволюция</h3>
+          <p style="font-size:14px; color:var(--text-muted); margin:0; line-height: 1.5;" id="art-enc-evolution"></p>
+        </div>
+        <div>
+          <h3 style="font-size:16px; margin:0 0 4px 0; display: flex; align-items: center; gap: 6px;"><i class="ti ti-comet" style="color:var(--primary)"></i> Палеонтологическая история</h3>
+          <p style="font-size:14px; color:var(--text-muted); margin:0; line-height: 1.5;" id="art-enc-history"></p>
+        </div>
+        <div>
+          <h3 style="font-size:16px; margin:0 0 4px 0; display: flex; align-items: center; gap: 6px;"><i class="ti ti-microscope"></i> Научные факты</h3>
+          <p style="font-size:14px; color:var(--text-muted); margin:0; line-height: 1.5;" id="art-enc-science"></p>
+        </div>
+      </div>
+
+      <div style="border-top:1px solid var(--border-light); padding-top:16px;">
+        <p style="font-size:12px; font-weight:700; text-transform:uppercase; color:var(--text-muted); margin-bottom:8px;">Связанные виды и схожие экологические ниши</p>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;" id="art-related-container"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div id="lightbox" class="lightbox-overlay" onclick="this.style.display='none'">
+  <div class="lightbox-content" id="lightbox-slot" onclick="event.stopPropagation()"></div>
+</div>
+
+<!-- Модалка новости -->
+<div id="news-modal-overlay" class="news-modal-overlay" onclick="closeNewsModal(event)">
+  <div class="news-modal" id="news-modal" onclick="event.stopPropagation()">
+    <div class="news-modal-header">
+      <div class="news-modal-meta" id="nm-meta"></div>
+      <button class="news-modal-close" onclick="closeNewsModal()" title="Закрыть"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="news-modal-body" id="nm-body"></div>
+    <div class="news-modal-footer" id="nm-footer"></div>
+  </div>
+</div>
+
+<!-- Data moved to creatures.js -->
+<script src="creatures.js"></script>
+<script>
+
+
+let activeCategory = "all";
+let selectedEras = new Set(); 
+let searchQuery = "";
+let currentSort = "alphabet";
+
+function init(){
+  buildTimeline();
+  buildCategoryTabs();
+  calculateCatalogStats();
+  renderNews("all");
+  
+  // АКТИВАЦИЯ ГОРИЗОНТАЛЬНОЙ ПРОКРУТКИ МЫШЬЮ
+  const timeline = document.getElementById("timeline-bar");
+  if (timeline) {
+    timeline.addEventListener("wheel", (e) => {
+      e.preventDefault(); // Отключаем прокрутку всей страницы вниз
+      timeline.scrollLeft += e.deltaY * 1.2; // Прокручиваем ленту вбок
+    });
+  }
+  
+  document.getElementById("search-input").addEventListener("input", (e) => {
+    searchQuery = e.target.value;
+    applyFilterAndRender();
+  });
+  
+  document.getElementById("sort-select").addEventListener("change", (e) => {
+    currentSort = e.target.value;
+    applyFilterAndRender();
+  });
+
+  window.addEventListener("hashchange", handleRouting);
+  handleRouting(); 
+}
+
+function getLevenshteinDistance(a, b){
+  const tmp = [];
+  for (let i = 0; i <= a.length; i++) { tmp[i] = [i]; }
+  for (let j = 0; j <= b.length; j++) { tmp[0][j] = j; }
+  for (let i = 1; i <= a.length; i++) {
+    for (let j = 1; j <= b.length; j++) {
+      tmp[i][j] = Math.min(
+        tmp[i - 1][j] + 1,
+        tmp[i][j - 1] + 1,
+        tmp[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)
+      );
+    }
+  }
+  return tmp[a.length][b.length];
+}
+
+function calculateCatalogStats(){
+  const statsBox = document.getElementById("catalog-stats-block");
+  if(!statsBox) return;
+
+  const totalCount = CREATURES_DATA.length;
+  const uniqueEras = new Set(CREATURES_DATA.map(c => c.era)).size;
+  
+  let largest = CREATURES_DATA[0];
+  let smallest = CREATURES_DATA[0];
+  let oldest = CREATURES_DATA[0];
+  let topPredator = null;
+
+  CREATURES_DATA.forEach(c => {
+    if(c.numerical.lengthM > largest.numerical.lengthM) largest = c;
+    if(c.numerical.lengthM < smallest.numerical.lengthM) smallest = c;
+    if(c.numerical.orderAge < oldest.numerical.orderAge) oldest = c;
+    if(c.anatomy.diet === "Хищник") {
+      if(!topPredator || c.numerical.weightT > topPredator.numerical.weightT) topPredator = c;
+    }
+  });
+
+  statsBox.innerHTML = `
+    <div><b>Всего видов:</b> ${totalCount}</div>
+    <div><b>Периодов:</b> ${uniqueEras}</div>
+    <div><b>Гигант:</b> ${largest ? largest.name : '—'}</div>
+    <div><b>Древнейший:</b> ${oldest ? oldest.name : '—'}</div>
+    <div><b>Хищник-титан:</b> ${topPredator ? topPredator.name : '—'}</div>
+    <div><b>Микро-вид:</b> ${smallest ? smallest.name : '—'}</div>
+  `;
+}
+
+function buildTimeline(){
+  const container = document.getElementById("timeline-bar");
+  container.innerHTML = ERAS.map(e => {
+    const count = CREATURES_DATA.filter(c => c.era.toLowerCase().includes(e.name.toLowerCase()) || c.eraClass === e.id).length;
+    return `
+      <button class="era-btn ${e.cls}" id="t-btn-${e.id}" onclick="toggleEraFilter('${e.id}')">
+        <span class="era-name">${e.name}</span>
+        <span class="era-range">${e.range}</span>
+        <span class="era-count">${count} ${getNounForm(count, 'вид', 'вида', 'видов')}</span>
+      </button>
+    `;
+  }).join("");
+}
+
+function buildCategoryTabs(){
+  const container = document.getElementById("category-filters");
+  container.innerHTML = CATS.map(c => `
+    <button class="filter-btn ${activeCategory === c.id ? 'active' : ''}" data-cat="${c.id}" onclick="setCategory('${c.id}')">
+      <i class="ti ${c.icon}"></i> ${c.label}
+    </button>
+  `).join("");
+}
+
+function setCategory(catId){
+  activeCategory = catId;
+  buildCategoryTabs();
+  applyFilterAndRender();
+}
+
+function toggleEraFilter(eraId){
+  if(selectedEras.has(eraId)){
+    selectedEras.delete(eraId);
+    document.getElementById(`t-btn-${eraId}`).classList.remove("active");
+  } else {
+    selectedEras.add(eraId);
+    document.getElementById(`t-btn-${eraId}`).classList.add("active");
+  }
+  applyFilterAndRender();
+}
+
+function applyFilterAndRender(){
+  let filtered = CREATURES_DATA.filter(c => {
+    const matchCat = (activeCategory === "all" || c.cat === activeCategory);
+    const matchEra = (selectedEras.size === 0 || selectedEras.has(c.eraClass));
+    
+    const s = searchQuery.toLowerCase().trim();
+    if (s === "") return matchCat && matchEra;
+
+    const matchFields = c.name.toLowerCase().includes(s) || 
+                        c.latin.toLowerCase().includes(s) ||
+                        c.era.toLowerCase().includes(s) ||
+                        c.anatomy.diet.toLowerCase().includes(s) ||
+                        c.region.toLowerCase().includes(s) ||
+                        c.anatomy.habitat.toLowerCase().includes(s);
+    
+    if (matchFields) return matchCat && matchEra;
+
+    const words = c.name.toLowerCase().split(" ");
+    const hasTypoMatch = words.some(w => getLevenshteinDistance(w, s) <= 2);
+    
+    return matchCat && matchEra && hasTypoMatch;
+  });
+
+  if (currentSort === "alphabet") {
+    filtered.sort((a,b) => a.name.localeCompare(b.name));
+  } else if (currentSort === "size-desc") {
+    filtered.sort((a,b) => b.numerical.lengthM - a.numerical.lengthM);
+  } else if (currentSort === "size-asc") {
+    filtered.sort((a,b) => a.numerical.lengthM - b.numerical.lengthM);
+  } else if (currentSort === "chrono") {
+    filtered.sort((a,b) => {
+      const orderA = ERAS.find(e => e.id === a.eraClass)?.order || 99;
+      const orderB = ERAS.find(e => e.id === b.eraClass)?.order || 99;
+      return orderA - orderB;
+    });
+  }
+
+  renderGrid(filtered);
+}
+
+// ─── Pagination state ───────────────────────────────
+const PAGE_SIZE = 24;
+let _currentFilteredList = [];
+let _currentPage = 1;
+
+// ─── Lazy image observer ─────────────────────────────
+const _imgObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const src = el.dataset.lazySrc;
+      if (src) {
+        el.style.backgroundImage = `url('${src}')`;
+        el.removeAttribute('data-lazy-src');
+        _imgObserver.unobserve(el);
+      }
+    }
+  });
+}, { rootMargin: '200px' });
+
+function _buildCard(c, index) {
+  // Use data-lazy-src so the background loads only when near viewport
+  const bgElement = c.image
+    ? `<div class="card-header-bg" data-lazy-src="${c.image}"></div>`
+    : '';
+  return `
+    <div class="creature-card" style="animation-delay:${Math.min(index, 10) * 0.04}s">
+      <div class="card-header-zone">
+        ${bgElement}
+        <div class="card-header-content">
+          <h3 style="margin:0;font-size:17px;font-weight:700;">${c.name}</h3>
+          <p style="margin:2px 0 0;font-size:13px;color:var(--text-muted);font-style:italic">${c.latin}</p>
+        </div>
+        <i class="ti ${CAT_ICON[c.cat]} card-header-icon" aria-hidden="true"></i>
+      </div>
+      <div style="position:relative;z-index:1;">
+        <span class="era-badge era-badge-color ${c.eraClass}">
+          <i class="ti ti-clock" style="font-size:12px;"></i> ${c.era} период (${c.mya} млн лет назад)
+        </span>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-cell">
+          <p class="stat-label"><i class="ti ti-ruler-2"></i> Длина</p>
+          <p class="stat-value">${c.anatomy.length}</p>
+        </div>
+        <div class="stat-cell">
+          <p class="stat-label"><i class="ti ti-meat"></i> Питание</p>
+          <p class="stat-value">${c.anatomy.diet}</p>
+        </div>
+      </div>
+      <div style="font-size:13px;color:var(--text-muted);line-height:1.4;margin:4px 0;position:relative;z-index:1;">
+        <i class="ti ti-bulb" style="color:#eab308;margin-right:2px;"></i> ${c.facts[0].substring(0, 85)}...
+      </div>
+      <button class="btn-action" onclick="window.location.hash='#/organism/${c.slug}'">
+        <i class="ti ti-book-open"></i> Подробная энциклопедия ↗
+      </button>
+    </div>`;
+}
+
+function _attachLazyObservers() {
+  document.querySelectorAll('.card-header-bg[data-lazy-src]').forEach(el => {
+    _imgObserver.observe(el);
+  });
+}
+
+function _renderPage() {
+  const grid = document.getElementById('creatures-grid');
+  const showMoreWrap = document.getElementById('show-more-wrap');
+  const sliced = _currentFilteredList.slice(0, _currentPage * PAGE_SIZE);
+
+  grid.innerHTML = sliced.length === 0
+    ? `<div style="grid-column:1/-1;text-align:center;padding:4rem 0;color:var(--text-muted)">
+         <i class="ti ti-search-off" style="font-size:42px;display:block;margin-bottom:12px;"></i>
+         <p style="margin:0;font-size:16px;font-weight:500;">Ничего не найдено. Проверьте запрос или сбросьте фильтры шкалы.</p>
+       </div>`
+    : sliced.map((c, i) => _buildCard(c, i)).join('');
+
+  _attachLazyObservers();
+
+  const remaining = _currentFilteredList.length - sliced.length;
+  if (showMoreWrap) {
+    if (remaining > 0) {
+      showMoreWrap.style.display = 'flex';
+      showMoreWrap.querySelector('#show-more-count').textContent =
+        `Показать ещё ${Math.min(remaining, PAGE_SIZE)} из ${remaining}`;
+    } else {
+      showMoreWrap.style.display = 'none';
+    }
+  }
+}
+
+function loadMoreCreatures() {
+  _currentPage++;
+  _renderPage();
+  // Scroll to first new card smoothly
+  const grid = document.getElementById('creatures-grid');
+  const newCard = grid.children[(_currentPage - 1) * PAGE_SIZE];
+  if (newCard) newCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function renderGrid(list) {
+  _currentFilteredList = list;
+  _currentPage = 1;
+  const counter = document.getElementById('counter-lbl');
+  counter.textContent = `${list.length} ${getNounForm(list.length, 'вид найден', 'вида найдено', 'видов найдено')}`;
+  _renderPage();
+}
+
+function handleRouting(){
+  const hash = window.location.hash;
+  const catalogView = document.getElementById("main-catalog-view");
+  const skeletonView = document.getElementById("skeleton-loading-view");
+  const articleView = document.getElementById("article-page-view");
+
+  if(hash.startsWith("#/organism/")){
+    const slug = hash.replace("#/organism/", "");
+    const creature = CREATURES_DATA.find(c => c.slug === slug);
+    
+    if(creature) {
+      catalogView.style.display = "none";
+      articleView.style.display = "none";
+      skeletonView.style.display = "flex";
+
+      setTimeout(() => {
+        skeletonView.style.display = "none";
+        articleView.style.display = "block";
+        buildArticlePage(creature);
+      }, 350);
+      return;
+    }
+  }
+  
+  articleView.style.display = "none";
+  skeletonView.style.display = "none";
+  catalogView.style.display = "block";
+  renderNews(activeNewsFilter);
+  
+  document.getElementById("seo-title").textContent = "Палеонтологическая Энциклопедия — Древние формы жизни";
+  document.getElementById("seo-description").setAttribute("content", "Исследуйте эволюцию, анатомию и масштаб вымерших существ.");
+  applyFilterAndRender();
+}
+
+function buildArticlePage(c){
+  document.getElementById("seo-title").textContent = `${c.name} (${c.latin}) — Интерактивный Atlas`;
+  document.getElementById("seo-description").setAttribute("content", `${c.name}: ${c.encyclopedia.description}`);
+  document.getElementById("og-title").setAttribute("content", `${c.name} — Энциклопедия`);
+  document.getElementById("og-description").setAttribute("content", c.facts[0]);
+
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": c.name,
+    "alternateName": c.latin,
+    "description": c.encyclopedia.description,
+    "provider": { "@type": "Organization", "name": "Prehistoric Atlas" }
+  };
+  document.getElementById("schema-json").textContent = JSON.stringify(schemaData);
+
+  const badge = document.getElementById("art-era-badge");
+  badge.className = `era-badge era-badge-color ${c.eraClass}`;
+  badge.innerHTML = `<i class="ti ti-history"></i> ${c.era} период · ${c.mya} млн лет назад`;
+  
+  document.getElementById("art-name").textContent = c.name;
+  document.getElementById("art-latin").textContent = c.latin;
+
+  const illustrationBox = document.getElementById("art-main-illustration");
+  if (c.image) {
+    illustrationBox.style.display = "block";
+    illustrationBox.innerHTML = `
+      <img src="${c.image}" alt="${c.name}">
+      <span class="illustration-badge"><i class="ti ti-zoom-in"></i> Художественная реконструкция вида</span>
+    `;
+    illustrationBox.onclick = () => openLightbox(c.image);
+  } else {
+    illustrationBox.style.display = "none";
+    illustrationBox.innerHTML = "";
+  }
+
+  const specs = document.getElementById("art-specs-grid");
+  specs.innerHTML = Object.entries(c.anatomy).map(([key, val]) => {
+    const labels = { length:"Длина", height:"Высота", weight:"Масса", diet:"Питание", speed:"Скорость", habitat:"Среда обитания", lifespan:"Продолжительность", status:"Статус" };
+    return `<div class="stat-cell"><p class="stat-label">${labels[key] || key}</p><p class="stat-value">${val}</p></div>`;
+  }).join("");
+
+  const visualizer = document.getElementById("art-visualizer");
+  const humanHeight = 1.75;
+  const ratio = (c.numerical.lengthM / humanHeight);
+  const creatureHeightPx = Math.min(Math.max(28 * ratio, 12), 125);
+
+  visualizer.innerHTML = `
+    <div class="sv-ground"></div>
+    <div style="display:flex; align-items:flex-end; gap:50px; width:100%; justify-content:center; padding-bottom:4px;">
+      <div class="sv-human">
+        <span style="font-size:10px; color:var(--text-muted); font-weight:600; margin-bottom:2px;">1.75 м</span>
+        <i class="ti ti-user-scan"></i>
+      </div>
+      <div class="sv-creature" style="color: var(--primary);">
+        <span style="font-size:10px; color:var(--text-main); font-weight:700; margin-bottom:2px;">${c.numerical.lengthM} м</span>
+        <svg viewBox="0 0 100 50"><path d="M5,35 Q25,12 55,18 T95,15 Q85,42 60,38 T25,40 Z" fill="currentColor"/></svg>
+      </div>
+    </div>
+  `;
+  if(visualizer.querySelector(".sv-creature svg")) {
+    visualizer.querySelector(".sv-creature svg").style.height = `${creatureHeightPx}px`;
+  }
+  document.getElementById("art-size-comparison-text").innerHTML = `<i class="ti ti-info-circle"></i> ${c.comparison}`;
+
+  const currentEraObj = ERAS.find(e => e.id === c.eraClass);
+  const currentIdx = ERAS.indexOf(currentEraObj);
+  const prevEraName = currentIdx > 0 ? ERAS[currentIdx - 1].name : "Начало хроники";
+  const nextEraName = currentIdx < ERAS.length - 1 ? ERAS[currentIdx + 1].name : "Наши дни";
+
+  document.getElementById("art-mini-timeline").innerHTML = `
+    <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted);">
+      <span>← Предыдущий: ${prevEraName}</span>
+      <span style="font-weight: 700; color: var(--primary); text-transform: uppercase;">Текущий период: ${c.era} (${c.mya} млн лет)</span>
+      <span>Следующий: ${nextEraName} →</span>
+    </div>
+    <div style="height: 6px; background: var(--bg-secondary); border-radius: 3px; position: relative; margin-top: 4px;">
+      <div style="position: absolute; left: ${((currentIdx + 1) / ERAS.length) * 100}%; width: 14px; height: 14px; background: #ef4444; border-radius: 50%; top: -4px; transform: translateX(-50%); box-shadow: 0 0 6px #ef4444;"></div>
+    </div>
+  `;
+
+  document.getElementById("art-map-details").innerHTML = `
+    <div style="margin-bottom: 6px; display:flex; align-items:flex-start; gap:6px;"><i class="ti ti-world" style="color:var(--primary); font-size:16px; margin-top:2px;"></i> <div><b>Страны обнаружения:</b> ${c.geoMap.countries}</div></div>
+    <div style="margin-bottom: 6px; display:flex; align-items:flex-start; gap:6px;"><i class="ti ti-map-pin" style="color:var(--primary); font-size:16px; margin-top:2px;"></i> <div><b>Важнейшие месторождения:</b> ${c.geoMap.mainSites}</div></div>
+    <div style="display:flex; align-items:flex-start; gap:6px;"><i class="ti ti-archive" style="color:var(--primary); font-size:16px; margin-top:2px;"></i> <div><b>Общее количество документированных находок:</b> <span style="color:var(--primary); font-weight:700;">${c.geoMap.findings} экземпляров</span></div></div>
+  `;
+
+  const randomFact = c.facts[Math.floor(Math.random() * c.facts.length)];
+  document.getElementById("art-random-fact-box").innerHTML = `
+    <h4 style="margin:0 0 6px 0; font-size:14px; color: var(--text-main); display:flex; align-items:center; gap:6px;">
+      <i class="ti ti-bulb" style="color:#eab308"></i> Раздел «Знаете ли вы?»
+    </h4>
+    <p style="margin:0; font-size:13px; color:var(--text-muted); line-height:1.4;">${randomFact}</p>
+  `;
+
+  document.getElementById("art-enc-desc").textContent = c.encyclopedia.description;
+  document.getElementById("art-enc-lifestyle").textContent = c.encyclopedia.lifestyle;
+  document.getElementById("art-enc-evolution").textContent = c.encyclopedia.evolution;
+  document.getElementById("art-enc-history").textContent = c.encyclopedia.history;
+  document.getElementById("art-enc-science").textContent = c.encyclopedia.science;
+
+  const relatedList = CREATURES_DATA.filter(r => {
+    if (r.id === c.id) return false;
+    let weight = 0;
+    if (r.cat === c.cat) weight += 2;
+    if (r.eraClass === c.eraClass) weight += 3;
+    if (r.anatomy.diet === c.anatomy.diet) weight += 2;
+    if (r.anatomy.habitat === c.anatomy.habitat) weight += 2;
+    if (Math.abs(r.numerical.lengthM - c.numerical.lengthM) < 5) weight += 1;
+    return weight >= 4;
+  }).slice(0, 6);
+
+  const relContainer = document.getElementById("art-related-container");
+  if(relatedList.length === 0){
+    relContainer.innerHTML = `<span style="font-size:13px; color:var(--text-muted)">Нет близких видов в текущей версии атласа.</span>`;
+  } else {
+    relContainer.innerHTML = relatedList.map(r => `
+      <button class="era-badge era-badge-color ${r.eraClass}" style="cursor:pointer; border:1px solid var(--border-color);" onclick="window.location.hash='#/organism/${r.slug}'">
+        ${r.name} (${r.anatomy.length}) ↗
+      </button>
+    `).join("");
+  }
+}
+
+function openLightbox(imageSrc){
+  const slot = document.getElementById("lightbox-slot");
+  slot.innerHTML = `<img src="${imageSrc}" alt="Увеличенное изображение">`;
+  document.getElementById("lightbox").style.display = "flex";
+}
+
+function navigateToHome(){
+  window.location.hash = "";
+}
+
+function getNounForm(number, one, two, five) {
+  let n = Math.abs(number);
+  n %= 100;
+  if (n >= 5 && n <= 20) return five;
+  n %= 10;
+  if (n === 1) return one;
+  if (n >= 2 && n <= 4) return two;
+  return five;
+}
+
+document.addEventListener("DOMContentLoaded", init);
+
+/* ─────────────────────────────────────────
+   НОВОСТНОЙ РАЗДЕЛ
+───────────────────────────────────────── */
+const NEWS_DATA = [
+  {
+    id: 1,
+    cat: "discovery",
+    catLabel: "Открытие",
+    date: "Июнь 2025",
+    title: "В Аргентине найден новый вид гигантского титанозавра",
+    summary: "Палеонтологи описали Chucarosaurus diripienda — одного из крупнейших зауроподов: длина особи превышала 28 метров. Кости извлечены из формации Конкаран провинции Сан-Луис.",
+    source: "Nature, 2025",
+    sourceIcon: "ti-file-text",
+    author: "Ред. Prehistoric Atlas",
+    readTime: "4 мин",
+    lead: "Международная экспедиция под руководством аргентинского Национального университета Сан-Луис извлекла из меловых отложений формации Конкаран частичный скелет нового гигантского зауропода, получившего название Chucarosaurus diripienda.",
+    sections: [
+      {
+        title: "Что нашли",
+        text: "Скелет включает позвонки, фрагменты тазового пояса и конечности. По совокупности морфологических признаков животное относится к группе литостротий — самых поздних и специализированных зауроподов мелового периода. Расчётная длина составляет 28–30 метров при массе около 60 тонн."
+      },
+      {
+        title: "Место в систематике",
+        text: "Chucarosaurus входит в клан Colossosauria вместе с Patagotitan mayorum и Argentinosaurus — в настоящее время это самые крупные из научно описанных наземных животных. Сравнительный анализ позвонков указывает на уникальную пневматизацию, снижавшую общий вес скелета."
+      },
+      {
+        title: "Значение находки",
+        text: "Открытие подтверждает, что Патагония была эпицентром гигантизма у зауроподов в позднем мелу. Исследователи связывают это с обилием сочной растительности в субтропическом климате того времени и отсутствием крупных наземных хищников, сопоставимых по размеру с добычей."
+      }
+    ],
+    tags: ["Зауроподы", "Аргентина", "Поздний мел", "Гигантизм", "Новый вид"]
+  },
+  {
+    id: 2,
+    cat: "research",
+    catLabel: "Исследование",
+    date: "Апрель 2025",
+    title: "Тираннозавр рекс мог быть ещё умнее, чем считалось",
+    summary: "Новый анализ нейронной архитектуры черепа T. rex с применением КТ-сканирования выявил развитые обонятельные луковицы и признаки сложного социального поведения.",
+    source: "Journal of Paleontology",
+    sourceIcon: "ti-microscope",
+    author: "Ред. Prehistoric Atlas",
+    readTime: "5 мин",
+    lead: "Группа нейробиологов из Гарвардского университета провела высокоточное КТ-сканирование пяти черепов Tyrannosaurus rex и построила трёхмерные эндокасты мозга — впервые с такой детализацией.",
+    sections: [
+      {
+        title: "Методика",
+        text: "Используя синхротронное сканирование с разрешением до 0.1 мм, учёные восстановили объём и структуру нейронных отделов. Особое внимание уделялось обонятельным луковицам, мозжечку и зрительным долям — ключевым областям охотничьего поведения."
+      },
+      {
+        title: "Ключевые выводы",
+        text: "Обонятельные луковицы T. rex оказались пропорционально крупнее, чем у крокодилов и варанов, и сопоставимы с долей обонятельной коры у современных альбатросов. Это указывает на способность отслеживать запаховые следы на расстояниях свыше 5 км. Кроме того, площадь мозжечка говорит о возможном наличии зачаточной социальной памяти."
+      },
+      {
+        title: "Дискуссия",
+        text: "Часть учёных сохраняет скептицизм: объём мозга не всегда коррелирует с интеллектом. Тем не менее авторы работы указывают, что концентрация нейронов в ключевых зонах у T. rex сопоставима с некоторыми ныне живущими хищными птицами — потомками тероподов."
+      }
+    ],
+    tags: ["Тираннозавр", "Нейробиология", "Поведение", "КТ-сканирование", "Меловой период"]
+  },
+  {
+    id: 3,
+    cat: "exhibit",
+    catLabel: "Выставка",
+    date: "Май 2025",
+    title: "Смитсоновский музей открыл зал «Океаны мела»",
+    summary: "Обновлённая экспозиция включает почти полный скелет мозазавра длиной 14 метров, интерактивные голограммы и реконструкции подводных сцен мелового периода.",
+    source: "Smithsonian Magazine",
+    sourceIcon: "ti-building-museum",
+    author: "Ред. Prehistoric Atlas",
+    readTime: "3 мин",
+    lead: "Национальный музей естественной истории Смитсоновского института в Вашингтоне открыл полностью реконструированный зал «Океаны мела» после трёхлетней реновации стоимостью 38 миллионов долларов.",
+    sections: [
+      {
+        title: "Главные экспонаты",
+        text: "Центральным объектом зала стал почти полный скелет Mosasaurus hoffmannii длиной 14.2 метра, подвешенный над головами посетителей. Рядом расположены реконструированные скелеты эласмозавра, ксифактина и крупного аммонита Parapuzosia seppenradensis диаметром 1.8 метра."
+      },
+      {
+        title: "Технологии",
+        text: "Зал оснащён 12-метровой голографической панорамой: посетители «погружаются» в меловое море, наблюдая охоту мозазавра на черепах. Восемь интерактивных стендов позволяют сравнить анатомию вымерших морских рептилий с их современными аналогами и изменить параметры среды — температуру, солёность, уровень CO₂."
+      },
+      {
+        title: "Образовательная программа",
+        text: "Параллельно запускается онлайн-экспозиция с возможностью загрузить 3D-модели в формате AR. Школьные группы получат доступ к лабораторным репликам зубов и фрагментов костей для тактильного изучения."
+      }
+    ],
+    tags: ["Мозазавр", "Меловой период", "Музей", "Вашингтон", "Интерактив"]
+  },
+  {
+    id: 4,
+    cat: "tech",
+    catLabel: "Технологии",
+    date: "Март 2025",
+    title: "ИИ помог восстановить облик пернатых динозавров по образцам пигментов",
+    summary: "Модель машинного обучения проанализировала меланосомы в окаменелостях микрорапторов и с высокой точностью воссоздала цветовой рисунок оперения — радужно-синий с металлическим отливом.",
+    source: "Science Advances",
+    sourceIcon: "ti-cpu",
+    author: "Ред. Prehistoric Atlas",
+    readTime: "5 мин",
+    lead: "Исследователи из Бристольского университета разработали нейросетевую модель, способную предсказывать цвет оперения вымерших птиц и динозавров на основе формы и концентрации ископаемых меланосом.",
+    sections: [
+      {
+        title: "Как работает метод",
+        text: "Меланосомы — органеллы, содержащие пигмент меланин, — сохраняются в окаменелостях как характерные микроструктуры. Их форма напрямую определяет спектральные свойства окраски у современных птиц: удлинённые меланосомы дают чёрный и коричневый цвет, сферические — рыжий, а слоистые наноструктуры создают структурную радужность. ИИ обучили на данных 230 видов современных птиц."
+      },
+      {
+        title: "Результаты для Microraptor",
+        text: "Применив модель к образцам Microraptor gui из Китая (ранний мел, 125 млн лет), исследователи получили палитру: основной тон — насыщенный сине-чёрный с выраженным металлическим радужным переливом на перьях крыльев. Это согласуется с более ранними ручными интерпретациями, но достигнута куда более высокая статистическая уверенность."
+      },
+      {
+        title: "Перспективы",
+        text: "Команда планирует применить метод к Archaeopteryx, Anchiornis и нескольким видам ранних птиц Cретацеуса. По словам авторов, следующий шаг — учёт каротиноидных пигментов, которые не сохраняются, но могут быть косвенно реконструированы через диету животного."
+      }
+    ],
+    tags: ["Микрораптор", "Оперение", "ИИ", "Меланосомы", "Ранний мел"]
+  },
+  {
+    id: 5,
+    cat: "discovery",
+    catLabel: "Открытие",
+    date: "Февраль 2025",
+    title: "Якутские учёные извлекли мамонтёнка возрастом 50 000 лет",
+    summary: "Детёныш шерстистого мамонта, получивший имя «Яна», сохранился в вечной мерзлоте с кожей, шерстью и отдельными внутренними органами. Образцы уже переданы для анализа ДНК.",
+    source: "Current Biology",
+    sourceIcon: "ti-snowflake",
+    author: "Ред. Prehistoric Atlas",
+    readTime: "4 мин",
+    lead: "Сотрудники Академии наук Республики Саха (Якутия) совместно с зоологами из Стокгольмского университета обнаружили в вечной мерзлоте на берегу реки Яна уникально сохранившегося детёныша шерстистого мамонта.",
+    sections: [
+      {
+        title: "Состояние находки",
+        text: "Мамонтёнок, которому дали имя «Яна», возрастом около 50 000 лет сохранился с кожным покровом, фрагментами шерсти, мягкими тканями хобота и частично — с желудочным содержимым. Судя по зубам, животное погибло в возрасте 6–8 месяцев. По степени сохранности находка сравнима лишь с «Любой», обнаруженной в 2007 году на Ямале."
+      },
+      {
+        title: "Научный потенциал",
+        text: "Образцы ткани переданы в три независимые лаборатории: в Копенгагене, Токио и Москве. Учёные надеются извлечь митохондриальную и, возможно, ядерную ДНК для уточнения популяционной истории позднеплейстоценовых мамонтов Сибири. Желудочное содержимое позволит реконструировать рацион и ботанический состав тундростепи того времени."
+      },
+      {
+        title: "Контекст de-extinction",
+        text: "Находка вызвала новую волну интереса со стороны компании Colossal Biosciences, занимающейся «воскрешением» мамонта методами генной инженерии. Тем не менее большинство палеогенетиков подчёркивают: качественная полная ядерная ДНК из вечной мерзлоты по-прежнему остаётся редкостью."
+      }
+    ],
+    tags: ["Мамонт", "Вечная мерзлота", "Якутия", "Плейстоцен", "Древняя ДНК"]
+  },
+  {
+    id: 6,
+    cat: "research",
+    catLabel: "Исследование",
+    date: "Январь 2025",
+    title: "Мегалодон вымер раньше, чем предполагалось",
+    summary: "Переоценка изотопных дат зубов Otodus megalodon сдвигает дату вымирания акулы-гиганта с 2.6 до 3.6 млн лет назад. Причиной называют исчезновение тёплых прибрежных экосистем.",
+    source: "Palaeontologia Electronica",
+    sourceIcon: "ti-fish",
+    author: "Ред. Prehistoric Atlas",
+    readTime: "4 мин",
+    lead: "Международная группа учёных пересмотрела возраст 120 образцов зубов Otodus megalodon из 20 музейных коллекций, применив усовершенствованный уран-свинцовый метод датирования. Вывод: акула-гигант исчезла на миллион лет раньше общепринятой даты.",
+    sections: [
+      {
+        title: "Проблема с датировкой",
+        text: "Прежние оценки (вымирание ~2.6 млн лет назад) основывались на стратиграфическом положении зубов в морских отложениях. Однако зубы акул обладают высокой плавучестью и легко переотлагаются: зуб возрастом 5 млн лет может оказаться в слоях возрастом 2 млн лет. Новый метод работает непосредственно с изотопным составом эмали."
+      },
+      {
+        title: "Новая дата и её причины",
+        text: "Пересмотренная дата вымирания — около 3.6 млн лет назад — совпадает с Занклским затоплением и первыми признаками охлаждения Мирового океана в плиоцене. Мегалодон был специализирован на охоте в тёплых мелководных зонах, богатых китообразными. Именно их исчезновение из таких экосистем, по мнению авторов, и запустило цепочку вымирания."
+      },
+      {
+        title: "Что это меняет",
+        text: "Новые данные окончательно закрывают конспирологические нарративы о том, что мегалодон «мог дожить» до современности: 3.6 млн лет — геологически достаточно давно, чтобы исключить любые шансы на выживание. Кроме того, это ставит вопрос о том, сосуществовал ли мегалодон с ранними Homo — ответ отрицательный."
+      }
+    ],
+    tags: ["Мегалодон", "Вымирание", "Акулы", "Плиоцен", "Датирование"]
+  }
+];
+
+let activeNewsFilter = "all";
+let currentNewsId = null;
+
+function renderNews(filter) {
+  const grid = document.getElementById("news-grid");
+  if (!grid) return;
+
+  const list = filter === "all"
+    ? NEWS_DATA
+    : NEWS_DATA.filter(n => n.cat === filter);
+
+  const catClass = {
+    discovery: "news-cat-discovery",
+    research:  "news-cat-research",
+    exhibit:   "news-cat-exhibit",
+    tech:      "news-cat-tech"
+  };
+
+  grid.innerHTML = list.map((n, i) => `
+    <div class="news-card" style="animation-delay:${i * 0.06}s">
+      <div class="news-card-header">
+        <span class="news-cat-tag ${catClass[n.cat]}">${n.catLabel}</span>
+        <span class="news-date"><i class="ti ti-calendar" style="font-size:11px;margin-right:2px;"></i>${n.date}</span>
+      </div>
+      <div class="news-card-body">
+        <p class="news-card-title">${n.title}</p>
+        <p class="news-card-summary">${n.summary}</p>
+      </div>
+      <div class="news-card-footer">
+        <span class="news-source"><i class="ti ${n.sourceIcon}" style="font-size:13px;"></i> ${n.source}</span>
+        <button class="news-read-btn" onclick="openNewsModal(${n.id})">
+          <i class="ti ti-book-open" style="font-size:12px;"></i> Подробнее
+        </button>
+      </div>
+    </div>
+  `).join("");
+}
+
+function filterNews(filter, btn) {
+  activeNewsFilter = filter;
+  document.querySelectorAll("#news-filter-bar .news-filter-btn").forEach(b => b.classList.remove("active"));
+  if (btn) btn.classList.add("active");
+  renderNews(filter);
+}
+
+function openNewsModal(id) {
+  const n = NEWS_DATA.find(x => x.id === id);
+  if (!n) return;
+  currentNewsId = id;
+
+  const catClass = {
+    discovery: "news-cat-discovery",
+    research:  "news-cat-research",
+    exhibit:   "news-cat-exhibit",
+    tech:      "news-cat-tech"
+  };
+
+  // Мета-шапка
+  document.getElementById("nm-meta").innerHTML = `
+    <span class="news-cat-tag ${catClass[n.cat]}">${n.catLabel}</span>
+    <span class="news-date"><i class="ti ti-calendar" style="font-size:11px;margin-right:2px;"></i>${n.date}</span>
+  `;
+
+  // Тело
+  document.getElementById("nm-body").innerHTML = `
+    <h2 class="news-modal-title">${n.title}</h2>
+    <div class="news-modal-byline">
+      <span><i class="ti ti-user-circle"></i> ${n.author}</span>
+      <span><i class="ti ti-clock"></i> ${n.readTime} чтения</span>
+      <span><i class="ti ${n.sourceIcon}"></i> ${n.source}</span>
+    </div>
+    <p class="news-modal-lead">${n.lead}</p>
+    ${n.sections.map(s => `
+      <div>
+        <p class="news-modal-section-title">${s.title}</p>
+        <p class="news-modal-text">${s.text}</p>
+      </div>
+    `).join("")}
+    <div>
+      <p class="news-modal-section-title">Теги</p>
+      <div class="news-modal-tags">
+        ${n.tags.map(t => `<span class="news-modal-tag"><i class="ti ti-tag" style="font-size:10px;margin-right:3px;"></i>${t}</span>`).join("")}
+      </div>
+    </div>
+  `;
+
+  // Подвал с навигацией
+  const allIds = NEWS_DATA.map(x => x.id);
+  const idx = allIds.indexOf(id);
+  const prevId = idx > 0 ? allIds[idx - 1] : null;
+  const nextId = idx < allIds.length - 1 ? allIds[idx + 1] : null;
+
+  document.getElementById("nm-footer").innerHTML = `
+    <span class="news-modal-source-block">
+      <i class="ti ${n.sourceIcon}" style="font-size:15px; color:var(--primary)"></i>
+      <span>Источник: <b>${n.source}</b></span>
+    </span>
+    <div class="news-modal-nav">
+      <button class="news-nav-btn" onclick="openNewsModal(${prevId})" ${!prevId ? 'disabled' : ''}>
+        <i class="ti ti-chevron-left"></i> Пред.
+      </button>
+      <button class="news-nav-btn" onclick="openNewsModal(${nextId})" ${!nextId ? 'disabled' : ''}>
+        След. <i class="ti ti-chevron-right"></i>
+      </button>
+    </div>
+  `;
+
+  const overlay = document.getElementById("news-modal-overlay");
+  overlay.classList.add("open");
+  document.getElementById("news-modal").scrollTop = 0;
+  document.body.style.overflow = "hidden";
+}
+
+function closeNewsModal(e) {
+  if (e && e.target !== document.getElementById("news-modal-overlay")) return;
+  document.getElementById("news-modal-overlay").classList.remove("open");
+  document.body.style.overflow = "";
+  currentNewsId = null;
+}
+
+// Закрытие по Escape
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    document.getElementById("news-modal-overlay").classList.remove("open");
+    document.body.style.overflow = "";
+    currentNewsId = null;
+  }
+});
+</script> <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js')
+          .then((registration) => {
+            console.log('Service Worker успешно зарегистрирован! Область видимости:', registration.scope);
+          })
+          .catch((error) => {
+            console.error('Ошибка регистрации Service Worker:', error);
+          });
+      });
+    }
+  </script>
+</body>
+</html>
