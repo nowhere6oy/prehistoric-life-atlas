@@ -85,7 +85,7 @@ const CREATURES_DATA = [
   },
   {
     id: 13, slug: "megalosaurus", name: "Мегалозавр", latin: "Megalosaurus bucklandii", cat: "animals", 
-    image: "",
+    image: "Megalosaurus_bucklandii.png",
     era: "Юрский", eraClass: "jurassic", mya: "168–166", region: "Европа",
     anatomy: { length: "9 м", height: "3 м", weight: "1.5 т", diet: "Хищник", speed: "30 км/ч", habitat: "Прибрежные леса и острова", lifespan: "25 лет", status: "Вымер" },
     numerical: { lengthM: 9.0, heightM: 3.0, weightT: 1.5, orderAge: 9 },
@@ -253,7 +253,7 @@ const CREATURES_DATA = [
   },
   {
     id: 20, slug: "stegosaurus-stenops", name: "Стегозавр", latin: "Stegosaurus stenops", cat: "animals",
-    image: "",
+    image: "Stegosaurus_stenops.jpg",
     era: "Юрский", eraClass: "jurassic", mya: "155–150", region: "Северная Америка",
     anatomy: { length: "9 м", height: "4 м", weight: "3.8 т", diet: "Травоядный", speed: "7 км/ч", habitat: "Поймы рек и кустарниковые равнины", lifespan: "80 лет", status: "Вымер" },
     numerical: { lengthM: 9.0, heightM: 4.0, weightT: 3.8, orderAge: 9 },
@@ -337,7 +337,7 @@ const CREATURES_DATA = [
   },
   {
     id: 24, slug: "leedsichthys-problematicus", name: "Лидсихтис", latin: "Leedsichthys problematicus", cat: "fish",
-    image: "",
+    image: "Leedsichthys_problematicus.png",
     era: "Юрский", eraClass: "jurassic", mya: "165–145", region: "Европа, Южная Америка",
     anatomy: { length: "16 м", height: "3 м", weight: "45 т", diet: "Фильтратор", speed: "5 км/ч", habitat: "Открытый юрский океан", lifespan: "40 лет", status: "Вымер" },
     numerical: { lengthM: 16.0, heightM: 3.0, weightT: 45.0, orderAge: 9 },
@@ -379,7 +379,7 @@ const CREATURES_DATA = [
   },
   {
     id: 26, slug: "plesiosaurus-dolichodeirus", name: "Плезиозавр", latin: "Plesiosaurus dolichodeirus", cat: "animals",
-    image: "",
+    image: "Plesiosaurus_dolichodeirus.png",
     era: "Юрский", eraClass: "jurassic", mya: "199–175", region: "Европа",
     anatomy: { length: "4.5 м", height: "1 м", weight: "0.45 т", diet: "Хищник", speed: "15 км/ч", habitat: "Мелководные моря", lifespan: "30 лет", status: "Вымер" },
     numerical: { lengthM: 4.5, heightM: 1.0, weightT: 0.45, orderAge: 9 },
