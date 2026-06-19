@@ -106,7 +106,7 @@ const CREATURES_DATA = [
   },
   {
     id: 14, slug: "majungasaurus", name: "Майюнгазавр", latin: "Majungasaurus crenatissimus", cat: "animals", 
-    image: "",
+    image: "Majungasaurus_crenatissimus.png",
     era: "Меловой", eraClass: "cretaceous", mya: "70–66", region: "Мадагаскар",
     anatomy: { length: "7 м", height: "2.2 м", weight: "1.1 т", diet: "Хищник", speed: "25 км/ч", habitat: "Поймы рек и аридные равнины", lifespan: "20 лет", status: "Вымер" },
     numerical: { lengthM: 7.0, heightM: 2.2, weightT: 1.1, orderAge: 10 },
@@ -127,7 +127,7 @@ const CREATURES_DATA = [
   },
   {
     id: 7, slug: "meganeura", name: "Меганевра", latin: "Meganeura monyi", cat: "insects", 
-    image: "",
+    image: "Meganeura_monyi.png",
     era: "Карбон", eraClass: "carboniferous", mya: "300", region: "Европа",
     anatomy: { length: "0.4 м", height: "0.1 м", weight: "0.15 кг", diet: "Хищник", speed: "50 км/ч", habitat: "Тропические болотистые леса", lifespan: "1 год", status: "Вымер" },
     numerical: { lengthM: 0.4, heightM: 0.1, weightT: 0.00015, orderAge: 6 },
@@ -169,7 +169,7 @@ const CREATURES_DATA = [
   },
   {
     id: 16, slug: "mosasaurus", name: "Мозазавр", latin: "Mosasaurus hoffmannii", cat: "animals", 
-    image: "",
+    image: "Mosasaurus_hoffmannii.png",
     era: "Меловой", eraClass: "cretaceous", mya: "82–66", region: "Мировой океан",
     anatomy: { length: "17 м", height: "2.8 м", weight: "15 т", diet: "Хищник", speed: "40 км/ч", habitat: "Пелагиаль и прибрежные моря", lifespan: "40 лет", status: "Вымер" },
     numerical: { lengthM: 17.0, heightM: 2.8, weightT: 15.0, orderAge: 10 },
