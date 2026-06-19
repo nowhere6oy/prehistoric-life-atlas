@@ -127,7 +127,7 @@ const CREATURES_DATA = [
   },
   {
     id: 7, slug: "meganeura", name: "Меганевра", latin: "Meganeura monyi", cat: "insects", 
-    image: "Meganeura_monyi.jpg",
+    image: "Meganeura_monyi.png",
     era: "Карбон", eraClass: "carboniferous", mya: "300", region: "Европа",
     anatomy: { length: "0.4 м", height: "0.1 м", weight: "0.15 кг", diet: "Хищник", speed: "50 км/ч", habitat: "Тропические болотистые леса", lifespan: "1 год", status: "Вымер" },
     numerical: { lengthM: 0.4, heightM: 0.1, weightT: 0.00015, orderAge: 6 },
