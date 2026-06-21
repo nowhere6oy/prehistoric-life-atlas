@@ -1,6 +1,6 @@
 const CREATURES_DATA = [
   {
-    id: 1, slug: "tyrannosaurus-rex", name: "Тираннозавр рекс", latin: "Tyrannosaurus rex", cat: "animals", 
+    id: 1, slug: "tyrannosaurus-rex", name: "Тираннозавр рекс", latin: "Tyrannosaurus rex", cat: "land", 
     image: "Scientifically_accurate_Tyrannosaurus_Rex.png",
     era: "Меловой", eraClass: "cretaceous", mya: "68–66", region: "Северная Америка",
     anatomy: { length: "12 м", height: "4 м", weight: "8.5 т", diet: "Хищник", speed: "27 км/ч", habitat: "Поймы рек и леса", lifespan: "28–30 лет", status: "Вымер" },
@@ -21,7 +21,7 @@ const CREATURES_DATA = [
     }
   },
   {
-    id: 2, slug: "mammuthus-primigenius", name: "Мамонт шерстистый", latin: "Mammuthus primigenius", cat: "animals", 
+    id: 2, slug: "mammuthus-primigenius", name: "Мамонт шерстистый", latin: "Mammuthus primigenius", cat: "land", 
     image: "Mammuthus_primigenius.png",
     era: "Четвертичный", eraClass: "quaternary", mya: "0.4–0.004", region: "Евразия, Сев. Америка",
     anatomy: { length: "5.5 м", height: "3.5 м", weight: "6.0 т", diet: "Травоядный", speed: "35 км/ч", habitat: "Тундростепь", lifespan: "60–70 лет", status: "Вымер" },
@@ -42,7 +42,7 @@ const CREATURES_DATA = [
     }
   },
   {
-    id: 11, slug: "otodus-megalodon", name: "Мегалодон", latin: "Otodus megalodon", cat: "fish", 
+    id: 11, slug: "otodus-megalodon", name: "Мегалодон", latin: "Otodus megalodon", cat: "aquatic", 
     image: "Otodus_megalodon.png",
     era: "Неоген", eraClass: "neogene", mya: "23–3.6", region: "Мировой океан",
     anatomy: { length: "18 м", height: "3.2 м", weight: "45 т", diet: "Хищник", speed: "11 км/ч", habitat: "Теплые прибрежные воды", lifespan: "35–50 лет", status: "Вымер" },
@@ -63,7 +63,7 @@ const CREATURES_DATA = [
     }
   },
   {
-    id: 12, slug: "dunkleosteus-terrelli", name: "Дунклеостей", latin: "Dunkleosteus terrelli", cat: "fish", 
+    id: 12, slug: "dunkleosteus-terrelli", name: "Дунклеостей", latin: "Dunkleosteus terrelli", cat: "aquatic", 
     image: "Dunkleosteus_terrelli.png",
     era: "Девон", eraClass: "devonian", mya: "380–360", region: "Мировой океан",
     anatomy: { length: "9 м", height: "1.8 м", weight: "4 т", diet: "Хищник", speed: "15 км/ч", habitat: "Прибрежные шельфы", lifespan: "30 лет", status: "Вымер" },
@@ -84,7 +84,7 @@ const CREATURES_DATA = [
     }
   },
   {
-    id: 13, slug: "megalosaurus", name: "Мегалозавр", latin: "Megalosaurus bucklandii", cat: "animals", 
+    id: 13, slug: "megalosaurus", name: "Мегалозавр", latin: "Megalosaurus bucklandii", cat: "land", 
     image: "Megalosaurus_bucklandii.png",
     era: "Юрский", eraClass: "jurassic", mya: "168–166", region: "Европа",
     anatomy: { length: "9 м", height: "3 м", weight: "1.5 т", diet: "Хищник", speed: "30 км/ч", habitat: "Прибрежные леса и острова", lifespan: "25 лет", status: "Вымер" },
@@ -105,7 +105,7 @@ const CREATURES_DATA = [
     }
   },
   {
-    id: 14, slug: "majungasaurus", name: "Майюнгазавр", latin: "Majungasaurus crenatissimus", cat: "animals", 
+    id: 14, slug: "majungasaurus", name: "Майюнгазавр", latin: "Majungasaurus crenatissimus", cat: "land", 
     image: "Majungasaurus_crenatissimus.png",
     era: "Меловой", eraClass: "cretaceous", mya: "70–66", region: "Мадагаскар",
     anatomy: { length: "7 м", height: "2.2 м", weight: "1.1 т", diet: "Хищник", speed: "25 км/ч", habitat: "Поймы рек и аридные равнины", lifespan: "20 лет", status: "Вымер" },
@@ -168,7 +168,7 @@ const CREATURES_DATA = [
     }
   },
   {
-    id: 16, slug: "mosasaurus", name: "Мозазавр", latin: "Mosasaurus hoffmannii", cat: "animals", 
+    id: 16, slug: "mosasaurus", name: "Мозазавр", latin: "Mosasaurus hoffmannii", cat: "aquatic", 
     image: "Mosasaurus_hoffmannii.png",
     era: "Меловой", eraClass: "cretaceous", mya: "82–66", region: "Мировой океан",
     anatomy: { length: "17 м", height: "2.8 м", weight: "15 т", diet: "Хищник", speed: "40 км/ч", habitat: "Пелагиаль и прибрежные моря", lifespan: "40 лет", status: "Вымер" },
@@ -189,7 +189,7 @@ const CREATURES_DATA = [
     }
   },
   {
-    id: 17, slug: "triceratops-horridus", name: "Трицератопс", latin: "Triceratops horridus", cat: "animals",
+    id: 17, slug: "triceratops-horridus", name: "Трицератопс", latin: "Triceratops horridus", cat: "land",
     image: "",
     era: "Меловой", eraClass: "cretaceous", mya: "68–66", region: "Северная Америка",
     anatomy: { length: "9 м", height: "3 м", weight: "12 т", diet: "Травоядный", speed: "24 км/ч", habitat: "Поймы рек, открытые равнины", lifespan: "30–40 лет", status: "Вымер" },
@@ -210,7 +210,7 @@ const CREATURES_DATA = [
     }
   },
   {
-    id: 18, slug: "brachiosaurus-altithorax", name: "Брахиозавр", latin: "Brachiosaurus altithorax", cat: "animals",
+    id: 18, slug: "brachiosaurus-altithorax", name: "Брахиозавр", latin: "Brachiosaurus altithorax", cat: "land",
     image: "",
     era: "Юрский", eraClass: "jurassic", mya: "154–150", region: "Северная Америка",
     anatomy: { length: "26 м", height: "9 м", weight: "56 т", diet: "Травоядный", speed: "10 км/ч", habitat: "Полузасушливые равнины и речные поймы", lifespan: "80–100 лет", status: "Вымер" },
@@ -231,7 +231,7 @@ const CREATURES_DATA = [
     }
   },
   {
-    id: 19, slug: "smilodon-fatalis", name: "Смилодон", latin: "Smilodon fatalis", cat: "animals",
+    id: 19, slug: "smilodon-fatalis", name: "Смилодон", latin: "Smilodon fatalis", cat: "land",
     image: "",
     era: "Четвертичный", eraClass: "quaternary", mya: "2.5–0.01", region: "Северная и Южная Америка",
     anatomy: { length: "2.1 м", height: "1.1 м", weight: "280 кг", diet: "Хищник", speed: "40 км/ч", habitat: "Саванны, редколесья и речные долины", lifespan: "20–40 лет", status: "Вымер" },
@@ -252,7 +252,7 @@ const CREATURES_DATA = [
     }
   },
   {
-    id: 20, slug: "stegosaurus-stenops", name: "Стегозавр", latin: "Stegosaurus stenops", cat: "animals",
+    id: 20, slug: "stegosaurus-stenops", name: "Стегозавр", latin: "Stegosaurus stenops", cat: "land",
     image: "Stegosaurus_stenops.jpg",
     era: "Юрский", eraClass: "jurassic", mya: "155–150", region: "Северная Америка",
     anatomy: { length: "9 м", height: "4 м", weight: "3.8 т", diet: "Травоядный", speed: "7 км/ч", habitat: "Поймы рек и кустарниковые равнины", lifespan: "80 лет", status: "Вымер" },
@@ -273,7 +273,7 @@ const CREATURES_DATA = [
     }
   },
   {
-    id: 21, slug: "allosaurus-fragilis", name: "Аллозавр", latin: "Allosaurus fragilis", cat: "animals",
+    id: 21, slug: "allosaurus-fragilis", name: "Аллозавр", latin: "Allosaurus fragilis", cat: "land",
     image: "",
     era: "Юрский", eraClass: "jurassic", mya: "156–145", region: "Северная Америка, Европа",
     anatomy: { length: "8.5 м", height: "3.5 м", weight: "1.7 т", diet: "Хищник", speed: "30 км/ч", habitat: "Поймы рек, саванны", lifespan: "25 лет", status: "Вымер" },
@@ -294,7 +294,7 @@ const CREATURES_DATA = [
     }
   },
   {
-    id: 22, slug: "diplodocus-carnegii", name: "Диплодок", latin: "Diplodocus carnegii", cat: "animals",
+    id: 22, slug: "diplodocus-carnegii", name: "Диплодок", latin: "Diplodocus carnegii", cat: "land",
     image: "",
     era: "Юрский", eraClass: "jurassic", mya: "154–152", region: "Северная Америка",
     anatomy: { length: "27 м", height: "4.5 м", weight: "16 т", diet: "Травоядный", speed: "10 км/ч", habitat: "Поймы рек и открытые равнины", lifespan: "70 лет", status: "Вымер" },
@@ -315,7 +315,7 @@ const CREATURES_DATA = [
     }
   },
   {
-    id: 23, slug: "archaeopteryx-lithographica", name: "Археоптерикс", latin: "Archaeopteryx lithographica", cat: "animals",
+    id: 23, slug: "archaeopteryx-lithographica", name: "Археоптерикс", latin: "Archaeopteryx lithographica", cat: "land",
     image: "",
     era: "Юрский", eraClass: "jurassic", mya: "150", region: "Центральная Европа (Германия)",
     anatomy: { length: "0.5 м", height: "0.3 м", weight: "1 кг", diet: "Насекомоядный", speed: "30 км/ч", habitat: "Тропические острова с лагунами", lifespan: "5 лет", status: "Вымер" },
@@ -336,7 +336,7 @@ const CREATURES_DATA = [
     }
   },
   {
-    id: 24, slug: "leedsichthys-problematicus", name: "Лидсихтис", latin: "Leedsichthys problematicus", cat: "fish",
+    id: 24, slug: "leedsichthys-problematicus", name: "Лидсихтис", latin: "Leedsichthys problematicus", cat: "aquatic",
     image: "Leedsichthys_problematicus.png",
     era: "Юрский", eraClass: "jurassic", mya: "165–145", region: "Европа, Южная Америка",
     anatomy: { length: "16 м", height: "3 м", weight: "45 т", diet: "Фильтратор", speed: "5 км/ч", habitat: "Открытый юрский океан", lifespan: "40 лет", status: "Вымер" },
@@ -357,7 +357,7 @@ const CREATURES_DATA = [
     }
   },
   {
-    id: 25, slug: "pterodactylus-antiquus", name: "Птеродактиль", latin: "Pterodactylus antiquus", cat: "animals",
+    id: 25, slug: "pterodactylus-antiquus", name: "Птеродактиль", latin: "Pterodactylus antiquus", cat: "land",
     image: "",
     era: "Юрский", eraClass: "jurassic", mya: "150", region: "Центральная Европа (Германия)",
     anatomy: { length: "1 м", height: "0.15 м", weight: "0.3 кг", diet: "Рыбоед", speed: "35 км/ч", habitat: "Прибрежные лагуны и рифы", lifespan: "8 лет", status: "Вымер" },
@@ -378,7 +378,7 @@ const CREATURES_DATA = [
     }
   },
   {
-    id: 26, slug: "plesiosaurus-dolichodeirus", name: "Плезиозавр", latin: "Plesiosaurus dolichodeirus", cat: "animals",
+    id: 26, slug: "plesiosaurus-dolichodeirus", name: "Плезиозавр", latin: "Plesiosaurus dolichodeirus", cat: "aquatic",
     image: "Plesiosaurus_dolichodeirus.png",
     era: "Юрский", eraClass: "jurassic", mya: "199–175", region: "Европа",
     anatomy: { length: "4.5 м", height: "1 м", weight: "0.45 т", diet: "Хищник", speed: "15 км/ч", habitat: "Мелководные моря", lifespan: "30 лет", status: "Вымер" },
@@ -418,10 +418,10 @@ const ERAS = [
 
 const CATS = [
   {id:"all",label:"Все категории",icon:"ti-layout-grid"},
-  {id:"animals",label:"Животные",icon:"ti-paw"},
-  {id:"insects",label:"Насекомые",icon:"ti-bug"},
-  {id:"fish",label:"Рыбы",icon:"ti-fish"},
-  {id:"plants",label:"Растения",icon:"ti-leaf"}
+  {id:"land",label:"Наземные",icon:"ti-paw"},
+  {id:"aquatic",label:"Водные",icon:"ti-fish"},
+  {id:"plants",label:"Растения",icon:"ti-leaf"},
+  {id:"insects",label:"Насекомые",icon:"ti-bug"}
 ];
 
-const CAT_ICON = {animals:"ti-paw",insects:"ti-bug",fish:"ti-fish",plants:"ti-leaf"};
+const CAT_ICON = {land:"ti-paw",aquatic:"ti-fish",plants:"ti-leaf",insects:"ti-bug"};
