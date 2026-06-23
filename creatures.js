@@ -211,7 +211,7 @@ const CREATURES_DATA = [
   },
   {
     id: 18, slug: "brachiosaurus-altithorax", name: "Брахиозавр", latin: "Brachiosaurus altithorax", cat: "land",
-    image: "Brachiosaurus altithorax.png",
+    image: "Brachiosaurus_altithorax.png",
     era: "Юрский", eraClass: "jurassic", mya: "154–150", region: "Северная Америка",
     anatomy: { length: "26 м", height: "9 м", weight: "56 т", diet: "Травоядный", speed: "10 км/ч", habitat: "Полузасушливые равнины и речные поймы", lifespan: "80–100 лет", status: "Вымер" },
     numerical: { lengthM: 26.0, heightM: 9.0, weightT: 56.0, orderAge: 9 },
