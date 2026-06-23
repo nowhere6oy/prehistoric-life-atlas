@@ -190,7 +190,7 @@ const CREATURES_DATA = [
   },
   {
     id: 17, slug: "triceratops-horridus", name: "Трицератопс", latin: "Triceratops horridus", cat: "land",
-    image: "",
+    image: "Triceratops_horridus.jpg",
     era: "Меловой", eraClass: "cretaceous", mya: "68–66", region: "Северная Америка",
     anatomy: { length: "9 м", height: "3 м", weight: "12 т", diet: "Травоядный", speed: "24 км/ч", habitat: "Поймы рек, открытые равнины", lifespan: "30–40 лет", status: "Вымер" },
     numerical: { lengthM: 9.0, heightM: 3.0, weightT: 12.0, orderAge: 10 },
@@ -211,7 +211,7 @@ const CREATURES_DATA = [
   },
   {
     id: 18, slug: "brachiosaurus-altithorax", name: "Брахиозавр", latin: "Brachiosaurus altithorax", cat: "land",
-    image: "",
+    image: "Brachiosaurus altithorax.png",
     era: "Юрский", eraClass: "jurassic", mya: "154–150", region: "Северная Америка",
     anatomy: { length: "26 м", height: "9 м", weight: "56 т", diet: "Травоядный", speed: "10 км/ч", habitat: "Полузасушливые равнины и речные поймы", lifespan: "80–100 лет", status: "Вымер" },
     numerical: { lengthM: 26.0, heightM: 9.0, weightT: 56.0, orderAge: 9 },
@@ -232,7 +232,7 @@ const CREATURES_DATA = [
   },
   {
     id: 19, slug: "smilodon-fatalis", name: "Смилодон", latin: "Smilodon fatalis", cat: "land",
-    image: "",
+    image: "Smilodon_fatalis.jpg",
     era: "Четвертичный", eraClass: "quaternary", mya: "2.5–0.01", region: "Северная и Южная Америка",
     anatomy: { length: "2.1 м", height: "1.1 м", weight: "280 кг", diet: "Хищник", speed: "40 км/ч", habitat: "Саванны, редколесья и речные долины", lifespan: "20–40 лет", status: "Вымер" },
     numerical: { lengthM: 2.1, heightM: 1.1, weightT: 0.28, orderAge: 13 },
@@ -274,7 +274,7 @@ const CREATURES_DATA = [
   },
   {
     id: 21, slug: "allosaurus-fragilis", name: "Аллозавр", latin: "Allosaurus fragilis", cat: "land",
-    image: "",
+    image: "Allosaurus_fragilis.jpg",
     era: "Юрский", eraClass: "jurassic", mya: "156–145", region: "Северная Америка, Европа",
     anatomy: { length: "8.5 м", height: "3.5 м", weight: "1.7 т", diet: "Хищник", speed: "30 км/ч", habitat: "Поймы рек, саванны", lifespan: "25 лет", status: "Вымер" },
     numerical: { lengthM: 8.5, heightM: 3.5, weightT: 1.7, orderAge: 9 },
@@ -295,7 +295,7 @@ const CREATURES_DATA = [
   },
   {
     id: 22, slug: "diplodocus-carnegii", name: "Диплодок", latin: "Diplodocus carnegii", cat: "land",
-    image: "",
+    image: "Diplodocus_carnegii.jpg",
     era: "Юрский", eraClass: "jurassic", mya: "154–152", region: "Северная Америка",
     anatomy: { length: "27 м", height: "4.5 м", weight: "16 т", diet: "Травоядный", speed: "10 км/ч", habitat: "Поймы рек и открытые равнины", lifespan: "70 лет", status: "Вымер" },
     numerical: { lengthM: 27.0, heightM: 4.5, weightT: 16.0, orderAge: 9 },
@@ -316,7 +316,7 @@ const CREATURES_DATA = [
   },
   {
     id: 23, slug: "archaeopteryx-lithographica", name: "Археоптерикс", latin: "Archaeopteryx lithographica", cat: "land",
-    image: "",
+    image: "Archaeopteryx_lithographica.jpg",
     era: "Юрский", eraClass: "jurassic", mya: "150", region: "Центральная Европа (Германия)",
     anatomy: { length: "0.5 м", height: "0.3 м", weight: "1 кг", diet: "Насекомоядный", speed: "30 км/ч", habitat: "Тропические острова с лагунами", lifespan: "5 лет", status: "Вымер" },
     numerical: { lengthM: 0.5, heightM: 0.3, weightT: 0.001, orderAge: 9 },
@@ -358,7 +358,7 @@ const CREATURES_DATA = [
   },
   {
     id: 25, slug: "pterodactylus-antiquus", name: "Птеродактиль", latin: "Pterodactylus antiquus", cat: "land",
-    image: "",
+    image: "Pterodactylus _antiquus.jpg",
     era: "Юрский", eraClass: "jurassic", mya: "150", region: "Центральная Европа (Германия)",
     anatomy: { length: "1 м", height: "0.15 м", weight: "0.3 кг", diet: "Рыбоед", speed: "35 км/ч", habitat: "Прибрежные лагуны и рифы", lifespan: "8 лет", status: "Вымер" },
     numerical: { lengthM: 1.0, heightM: 0.15, weightT: 0.0003, orderAge: 9 },
