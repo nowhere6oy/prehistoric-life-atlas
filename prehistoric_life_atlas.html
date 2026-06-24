@@ -987,6 +987,39 @@
         <option value="size-asc">По размеру (Мелкие)</option>
         <option value="chrono">Хронология (От древних)</option>
       </select>
+      <button class="adv-filter-toggle" id="adv-filter-toggle-btn" onclick="toggleAdvFilter()">
+        <i class="ti ti-adjustments-horizontal"></i> Фильтры
+        <span class="filter-active-badge" id="filter-badge" style="display:none;">0</span>
+      </button>
+    </div>
+
+    <!-- Панель расширенного фильтра -->
+    <div class="adv-filter-panel" id="adv-filter-panel">
+      <div class="adv-filter-row">
+        <span class="adv-filter-label"><i class="ti ti-meat"></i> Диета</span>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;" id="diet-filter-btns"></div>
+      </div>
+      <div class="adv-filter-row">
+        <span class="adv-filter-label"><i class="ti ti-arrows-horizontal"></i> Длина</span>
+        <div class="slider-wrap">
+          <input type="range" id="slider-length-min" min="0" max="27" step="0.5" value="0" oninput="onSliderChange()">
+          <span style="color:var(--text-muted);font-size:12px;">—</span>
+          <input type="range" id="slider-length-max" min="0" max="27" step="0.5" value="27" oninput="onSliderChange()">
+          <span class="slider-val" id="val-length">0 — 27 м</span>
+        </div>
+      </div>
+      <div class="adv-filter-row">
+        <span class="adv-filter-label"><i class="ti ti-run"></i> Скорость</span>
+        <div class="slider-wrap">
+          <input type="range" id="slider-speed-min" min="0" max="50" step="1" value="0" oninput="onSliderChange()">
+          <span style="color:var(--text-muted);font-size:12px;">—</span>
+          <input type="range" id="slider-speed-max" min="0" max="50" step="1" value="50" oninput="onSliderChange()">
+          <span class="slider-val" id="val-speed">0 — 50 км/ч</span>
+        </div>
+      </div>
+      <div class="adv-filter-row" style="justify-content:flex-end;">
+        <button class="adv-filter-reset" onclick="resetAdvFilters()"><i class="ti ti-refresh"></i> Сбросить фильтры</button>
+      </div>
     </div>
 
     <p style="font-size:13px;color:var(--text-muted);margin:0 0 1rem; font-weight: 500;" id="counter-lbl">0 видов в каталоге</p>
@@ -1141,6 +1174,97 @@ let selectedEras = new Set();
 let searchQuery = "";
 let currentSort = "alphabet";
 
+// ─── Расширенные фильтры ───────────────────────────
+let activeDiets = new Set();
+let filterLengthMin = 0, filterLengthMax = 27;
+let filterSpeedMin = 0, filterSpeedMax = 50;
+
+function toggleAdvFilter() {
+  const panel = document.getElementById("adv-filter-panel");
+  const btn = document.getElementById("adv-filter-toggle-btn");
+  panel.classList.toggle("open");
+  btn.classList.toggle("active");
+}
+
+function buildDietButtons() {
+  const diets = [...new Set(CREATURES_DATA.map(c => c.anatomy.diet))].sort();
+  const dietIcons = {
+    "Хищник": "ti-meat",
+    "Травоядный": "ti-leaf",
+    "Всеядный": "ti-salad",
+    "Насекомоядный": "ti-bug",
+    "Рыбоед": "ti-fish",
+    "Фильтратор": "ti-filter"
+  };
+  const container = document.getElementById("diet-filter-btns");
+  container.innerHTML = diets.map(d =>
+    `<button class="diet-btn" data-diet="${d}" onclick="toggleDiet('${d}')">
+      <i class="ti ${dietIcons[d] || 'ti-circle'}" style="margin-right:4px;vertical-align:-2px;"></i>${d}
+    </button>`
+  ).join("");
+}
+
+function toggleDiet(diet) {
+  if (activeDiets.has(diet)) {
+    activeDiets.delete(diet);
+  } else {
+    activeDiets.add(diet);
+  }
+  document.querySelectorAll(".diet-btn").forEach(btn => {
+    btn.classList.toggle("active", activeDiets.has(btn.dataset.diet));
+  });
+  updateFilterBadge();
+  applyFilterAndRender();
+}
+
+function onSliderChange() {
+  filterLengthMin = parseFloat(document.getElementById("slider-length-min").value);
+  filterLengthMax = parseFloat(document.getElementById("slider-length-max").value);
+  filterSpeedMin = parseFloat(document.getElementById("slider-speed-min").value);
+  filterSpeedMax = parseFloat(document.getElementById("slider-speed-max").value);
+
+  // Swap if min > max
+  if (filterLengthMin > filterLengthMax) {
+    [filterLengthMin, filterLengthMax] = [filterLengthMax, filterLengthMin];
+  }
+  if (filterSpeedMin > filterSpeedMax) {
+    [filterSpeedMin, filterSpeedMax] = [filterSpeedMax, filterSpeedMin];
+  }
+
+  document.getElementById("val-length").textContent = `${filterLengthMin} — ${filterLengthMax} м`;
+  document.getElementById("val-speed").textContent = `${filterSpeedMin} — ${filterSpeedMax} км/ч`;
+  updateFilterBadge();
+  applyFilterAndRender();
+}
+
+function updateFilterBadge() {
+  let count = activeDiets.size;
+  if (filterLengthMin > 0 || filterLengthMax < 27) count++;
+  if (filterSpeedMin > 0 || filterSpeedMax < 50) count++;
+  const badge = document.getElementById("filter-badge");
+  if (count > 0) {
+    badge.textContent = count;
+    badge.style.display = "inline-flex";
+  } else {
+    badge.style.display = "none";
+  }
+}
+
+function resetAdvFilters() {
+  activeDiets.clear();
+  filterLengthMin = 0; filterLengthMax = 27;
+  filterSpeedMin = 0; filterSpeedMax = 50;
+  document.querySelectorAll(".diet-btn").forEach(b => b.classList.remove("active"));
+  document.getElementById("slider-length-min").value = 0;
+  document.getElementById("slider-length-max").value = 27;
+  document.getElementById("slider-speed-min").value = 0;
+  document.getElementById("slider-speed-max").value = 50;
+  document.getElementById("val-length").textContent = "0 — 27 м";
+  document.getElementById("val-speed").textContent = "0 — 50 км/ч";
+  updateFilterBadge();
+  applyFilterAndRender();
+}
+
 function init(){
   buildTimeline();
   buildCategoryTabs();
@@ -1156,6 +1280,8 @@ function init(){
     });
   }
   
+  buildDietButtons();
+
   document.getElementById("search-input").addEventListener("input", (e) => {
     searchQuery = e.target.value;
     applyFilterAndRender();
@@ -1261,9 +1387,16 @@ function applyFilterAndRender(){
   let filtered = CREATURES_DATA.filter(c => {
     const matchCat = (activeCategory === "all" || c.cat === activeCategory);
     const matchEra = (selectedEras.size === 0 || selectedEras.has(c.eraClass));
-    
+    const matchDiet = (activeDiets.size === 0 || activeDiets.has(c.anatomy.diet));
+
+    const speed = parseFloat(c.anatomy.speed) || 0;
+    const matchLength = c.numerical.lengthM >= filterLengthMin && c.numerical.lengthM <= filterLengthMax;
+    const matchSpeed = speed >= filterSpeedMin && speed <= filterSpeedMax;
+
+    const baseMatch = matchCat && matchEra && matchDiet && matchLength && matchSpeed;
+
     const s = searchQuery.toLowerCase().trim();
-    if (s === "") return matchCat && matchEra;
+    if (s === "") return baseMatch;
 
     const matchFields = c.name.toLowerCase().includes(s) || 
                         c.latin.toLowerCase().includes(s) ||
@@ -1272,12 +1405,12 @@ function applyFilterAndRender(){
                         c.region.toLowerCase().includes(s) ||
                         c.anatomy.habitat.toLowerCase().includes(s);
     
-    if (matchFields) return matchCat && matchEra;
+    if (matchFields) return baseMatch;
 
     const words = c.name.toLowerCase().split(" ");
     const hasTypoMatch = words.some(w => getLevenshteinDistance(w, s) <= 2);
     
-    return matchCat && matchEra && hasTypoMatch;
+    return baseMatch && hasTypoMatch;
   });
 
   if (currentSort === "alphabet") {
