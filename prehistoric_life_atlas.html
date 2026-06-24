@@ -203,6 +203,48 @@
       border-color: var(--text-main);
     }
 
+    /* ─── Избранное / Коллекция ─── */
+    .fav-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 10;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(4px);
+      color: #94a3b8;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+      padding: 0;
+    }
+    .fav-btn:hover { background: #fff; color: #f59e0b; transform: scale(1.1); }
+    .fav-btn.active { background: #fef3c7; color: #f59e0b; }
+    @media (prefers-color-scheme: dark) {
+      .fav-btn { background: rgba(30,41,59,0.85); color: #64748b; }
+      .fav-btn:hover { background: rgba(30,41,59,1); color: #f59e0b; }
+      .fav-btn.active { background: rgba(120,80,0,0.4); color: #f59e0b; }
+    }
+    .collection-empty {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+    }
+    .collection-empty i { font-size: 48px; display: block; margin-bottom: 16px; opacity: 0.3; }
+    .collection-empty p { font-size: 15px; margin: 0; }
+    .collection-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 16px;
+    }
+
     /* Сетка карточек */
     .creatures-grid {
       display: grid;
@@ -971,6 +1013,10 @@
         <button onclick="window.location.hash='#/periods'" style="display:inline-flex;align-items:center;gap:7px;padding:9px 18px;background:var(--primary);color:#fff;border:none;border-radius:var(--radius-md);font-size:13px;font-weight:600;cursor:pointer;transition:var(--transition-smooth);box-shadow:var(--shadow-sm);" onmouseover="this.style.opacity='0.88'" onmouseout="this.style.opacity='1'">
           <i class="ti ti-timeline"></i> Геологические периоды
         </button>
+        <button onclick="window.location.hash='#/collection'" id="collection-nav-btn" style="display:inline-flex;align-items:center;gap:7px;padding:9px 18px;background:var(--bg-card);color:var(--text-main);border:1px solid var(--border-color);border-radius:var(--radius-md);font-size:13px;font-weight:600;cursor:pointer;transition:var(--transition-smooth);box-shadow:var(--shadow-sm);" onmouseover="this.style.background='var(--bg-secondary)'" onmouseout="this.style.background='var(--bg-card)'">
+          <i class="ti ti-bookmark" style="color:#f59e0b;"></i> Коллекция
+          <span id="fav-nav-count" style="background:#f59e0b;color:#fff;border-radius:10px;padding:1px 7px;font-size:11px;display:none;"></span>
+        </button>
         <div id="catalog-stats-block" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; background: var(--bg-card); border: 1px solid var(--border-light); padding: 10px 14px; border-radius: var(--radius-lg); font-size: 11px; box-shadow: var(--shadow-sm); min-width: 280px;"></div>
       </div>
     </div>
@@ -1148,6 +1194,24 @@
     <div id="periods-content" style="display:flex;flex-direction:column;gap:20px;"></div>
   </div>
 
+  <!-- ───── Страница коллекции ───── -->
+  <div id="collection-page-view" style="display:none;">
+    <div class="article-header">
+      <div>
+        <p style="font-size:11px;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase;margin:0 0 6px">Личная подборка</p>
+        <h2 style="margin:6px 0 2px 0;font-size:26px;font-weight:700;">Моя коллекция <span id="collection-count-badge" style="font-size:16px;color:var(--text-muted);font-weight:400;"></span></h2>
+        <p style="margin:0;color:var(--text-muted);font-size:15px;">Существа, которых вы добавили в избранное</p>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <button onclick="clearCollection()" style="display:inline-flex;align-items:center;gap:6px;padding:9px 16px;background:transparent;color:var(--text-muted);border:1px solid var(--border-color);border-radius:var(--radius-md);font-size:13px;font-weight:600;cursor:pointer;" onmouseover="this.style.borderColor='var(--text-main)';this.style.color='var(--text-main)'" onmouseout="this.style.borderColor='var(--border-color)';this.style.color='var(--text-muted)'">
+          <i class="ti ti-trash"></i> Очистить
+        </button>
+        <button class="back-btn" onclick="navigateToHome()"><i class="ti ti-arrow-back-up"></i> В каталог</button>
+      </div>
+    </div>
+    <div id="collection-grid-wrap" style="margin-top:1.5rem;"></div>
+  </div>
+
 <div id="lightbox" class="lightbox-overlay" onclick="this.style.display='none'">
   <div class="lightbox-content" id="lightbox-slot" onclick="event.stopPropagation()"></div>
 </div>
@@ -1281,6 +1345,7 @@ function init(){
   }
   
   buildDietButtons();
+  updateFavNavCount();
 
   document.getElementById("search-input").addEventListener("input", (e) => {
     searchQuery = e.target.value;
@@ -1457,8 +1522,11 @@ function _buildCard(c, index) {
     : '';
   return `
     <div class="creature-card" style="animation-delay:${Math.min(index, 10) * 0.04}s">
-      <div class="card-header-zone">
+      <div class="card-header-zone" style="position:relative;">
         ${bgElement}
+        <button class="fav-btn${isFav(c.slug) ? ' active' : ''}" onclick="event.stopPropagation();toggleFav('${c.slug}',this)" title="В коллекцию">
+          <i class="ti ${isFav(c.slug) ? 'ti-bookmark-filled' : 'ti-bookmark'}"></i>
+        </button>
         <div class="card-header-content">
           <h3 style="margin:0;font-size:17px;font-weight:700;">${c.name}</h3>
           <p style="margin:2px 0 0;font-size:13px;color:var(--text-muted);font-style:italic">${c.latin}</p>
@@ -1545,17 +1613,27 @@ function handleRouting(){
   const articleView = document.getElementById("article-page-view");
   const periodsView = document.getElementById("periods-page-view");
 
+  const collectionView = document.getElementById("collection-page-view");
+
   // Скрываем все
   catalogView.style.display = "none";
   articleView.style.display = "none";
   skeletonView.style.display = "none";
   periodsView.style.display = "none";
+  collectionView.style.display = "none";
 
   if(hash === "#/periods"){
     periodsView.style.display = "block";
     buildPeriodsPage();
     document.getElementById("seo-title").textContent = "Геологические периоды — Атлас доисторической жизни";
     document.getElementById("seo-description").setAttribute("content", "Полное описание всех геологических периодов Земли с ключевыми событиями, климатом и представителями фауны.");
+    return;
+  }
+
+  if(hash === "#/collection"){
+    collectionView.style.display = "block";
+    buildCollectionPage();
+    document.getElementById("seo-title").textContent = "Моя коллекция — Атлас доисторической жизни";
     return;
   }
 
@@ -1960,6 +2038,112 @@ function buildPeriodsPage() {
   });
 
   container.innerHTML = html;
+}
+
+/* ─────────────────────────────────────────
+   КОЛЛЕКЦИЯ / ИЗБРАННОЕ
+───────────────────────────────────────── */
+
+const FAV_KEY = "prehistoric_atlas_favourites";
+
+function getFavs() {
+  try { return JSON.parse(localStorage.getItem(FAV_KEY)) || []; }
+  catch { return []; }
+}
+
+function saveFavs(favs) {
+  localStorage.setItem(FAV_KEY, JSON.stringify(favs));
+}
+
+function isFav(slug) {
+  return getFavs().includes(slug);
+}
+
+function toggleFav(slug, btn) {
+  let favs = getFavs();
+  if (favs.includes(slug)) {
+    favs = favs.filter(s => s !== slug);
+    if (btn) {
+      btn.classList.remove("active");
+      btn.innerHTML = '<i class="ti ti-bookmark"></i>';
+      btn.title = "В коллекцию";
+    }
+  } else {
+    favs.push(slug);
+    if (btn) {
+      btn.classList.add("active");
+      btn.innerHTML = '<i class="ti ti-bookmark-filled"></i>';
+      btn.title = "Убрать из коллекции";
+    }
+    // Mini toast
+    showFavToast(slug);
+  }
+  saveFavs(favs);
+  updateFavNavCount();
+}
+
+function showFavToast(slug) {
+  const c = CREATURES_DATA.find(x => x.slug === slug);
+  if (!c) return;
+  let toast = document.getElementById("fav-toast");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "fav-toast";
+    toast.style.cssText = "position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:#1e293b;color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:600;z-index:9999;opacity:0;transition:all .3s;display:flex;align-items:center;gap:8px;box-shadow:0 4px 20px rgba(0,0,0,0.3);white-space:nowrap;";
+    document.body.appendChild(toast);
+  }
+  toast.innerHTML = `<i class="ti ti-bookmark-filled" style="color:#f59e0b;"></i> ${c.name} добавлен в коллекцию`;
+  toast.style.opacity = "1";
+  toast.style.transform = "translateX(-50%) translateY(0)";
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => {
+    toast.style.opacity = "0";
+    toast.style.transform = "translateX(-50%) translateY(20px)";
+  }, 2200);
+}
+
+function updateFavNavCount() {
+  const favs = getFavs();
+  const el = document.getElementById("fav-nav-count");
+  if (!el) return;
+  if (favs.length > 0) {
+    el.textContent = favs.length;
+    el.style.display = "inline";
+  } else {
+    el.style.display = "none";
+  }
+}
+
+function buildCollectionPage() {
+  const favs = getFavs();
+  const creatures = favs.map(slug => CREATURES_DATA.find(c => c.slug === slug)).filter(Boolean);
+
+  const badge = document.getElementById("collection-count-badge");
+  if (badge) badge.textContent = creatures.length > 0 ? `(${creatures.length})` : "";
+
+  const wrap = document.getElementById("collection-grid-wrap");
+  if (!wrap) return;
+
+  if (creatures.length === 0) {
+    wrap.innerHTML = `
+      <div class="collection-empty">
+        <i class="ti ti-bookmark"></i>
+        <p>Коллекция пуста</p>
+        <p style="margin-top:8px;font-size:13px;">Нажмите <i class="ti ti-bookmark" style="color:#f59e0b;"></i> на карточке существа, чтобы добавить его сюда</p>
+      </div>`;
+    return;
+  }
+
+  wrap.innerHTML = `<div class="collection-grid">${creatures.map((c, i) => _buildCard(c, i)).join("")}</div>`;
+  // Attach lazy observers for images
+  _attachLazyObservers();
+}
+
+function clearCollection() {
+  if (!confirm("Очистить всю коллекцию?")) return;
+  saveFavs([]);
+  updateFavNavCount();
+  buildCollectionPage();
 }
 
 document.addEventListener("DOMContentLoaded", init);
