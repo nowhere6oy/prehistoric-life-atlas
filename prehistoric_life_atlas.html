@@ -991,6 +991,173 @@
       border-bottom: 1px solid var(--border-light);
       margin-bottom: 4px;
     }
+
+    /* ─── Новая шапка каталога ─── */
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .page-header-nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .page-header-nav .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 16px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      white-space: nowrap;
+    }
+    .nav-btn-primary {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      box-shadow: var(--shadow-sm);
+    }
+    .nav-btn-primary:hover { opacity: 0.88; }
+    .nav-btn-secondary {
+      background: var(--bg-card);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+    }
+    .nav-btn-secondary:hover { background: var(--bg-secondary); }
+
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 0;
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 1.5rem;
+      overflow-x: auto;
+    }
+    .stats-strip > div {
+      padding: 10px 14px;
+      font-size: 11.5px;
+      line-height: 1.5;
+      border-right: 1px solid var(--border-light);
+      white-space: nowrap;
+    }
+    .stats-strip > div:last-child { border-right: none; }
+    .stats-strip b { display: block; font-size: 13px; color: var(--text-main); font-weight: 700; }
+    .stats-strip span { color: var(--text-muted); font-size: 10.5px; text-transform: uppercase; letter-spacing: .04em; }
+
+    /* ─── Панель фильтров: сгруппированный второй ряд ─── */
+    .filters-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 8px 10px;
+    }
+    .filters-row-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--text-muted);
+      white-space: nowrap;
+      padding-left: 4px;
+    }
+    .filters-row-spacer { flex: 1; min-width: 0; }
+    .filters-row #category-filters { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    /* ─── Единая строка активных фильтров ─── */
+    .active-filters-bar {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 10px 0 1rem;
+      padding: 8px 4px;
+    }
+    .active-filters-bar.visible { display: flex; }
+    .active-filters-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .active-filter-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--primary-light);
+      color: var(--primary);
+      border-radius: 20px;
+      padding: 5px 8px 5px 12px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .active-filter-chip button {
+      border: none;
+      background: rgba(0,0,0,0.08);
+      color: inherit;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      line-height: 1;
+      padding: 0;
+    }
+    .active-filters-clear {
+      border: none;
+      background: none;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 4px;
+    }
+    .active-filters-clear:hover { color: var(--text-main); }
+
+    /* ─── Карточка: бейдж эпохи в шапке ─── */
+    .card-header-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+      flex-wrap: wrap;
+    }
+
+    /* ─── Мобильная адаптация ─── */
+    @media (max-width: 720px) {
+      .page-header { flex-direction: column; align-items: stretch; }
+      .page-header-nav { justify-content: stretch; }
+      .page-header-nav .nav-btn { flex: 1; justify-content: center; }
+      .stats-strip { grid-template-columns: repeat(3, 1fr); }
+      .stats-strip > div:nth-child(3) { border-right: none; }
+      .stats-strip > div:nth-child(n+4) { border-top: 1px solid var(--border-light); }
+      .controls { flex-direction: column; align-items: stretch; }
+      .search-wrap { min-width: 0; }
+      .filters-row { justify-content: flex-start; }
+      .sort-select { flex: 1; min-width: 0; }
+    }
+    @media (prefers-color-scheme: dark) {
+      .active-filter-chip { background: rgba(59,130,246,0.18); }
+      .active-filter-chip button { background: rgba(255,255,255,0.12); }
+    }
   </style>
 </head>
 <body>
@@ -1002,31 +1169,37 @@
   </div>
 
   <div id="main-catalog-view">
-    <div style="margin-bottom:1.5rem; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px;">
+    <div class="page-header">
       <div>
         <p style="font-size:11px;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase;margin:0 0 6px">Научно-образовательная энциклопедия</p>
         <h1 style="font-size:28px;font-weight:700;margin:0 0 6px;color:var(--text-main)">Атлас доисторической жизни</h1>
         <p style="font-size:14px;color:var(--text-muted);margin:0;max-width:600px">Исследуйте эволюцию, анатомию и масштаб вымерших существ планеты в интерактивной форме.</p>
       </div>
-      
-      <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-end;">
-        <button onclick="window.location.hash='#/periods'" style="display:inline-flex;align-items:center;gap:7px;padding:9px 18px;background:var(--primary);color:#fff;border:none;border-radius:var(--radius-md);font-size:13px;font-weight:600;cursor:pointer;transition:var(--transition-smooth);box-shadow:var(--shadow-sm);" onmouseover="this.style.opacity='0.88'" onmouseout="this.style.opacity='1'">
+
+      <div class="page-header-nav">
+        <button onclick="window.location.hash='#/periods'" class="nav-btn nav-btn-primary">
           <i class="ti ti-timeline"></i> Геологические периоды
         </button>
-        <button onclick="window.location.hash='#/collection'" id="collection-nav-btn" style="display:inline-flex;align-items:center;gap:7px;padding:9px 18px;background:var(--bg-card);color:var(--text-main);border:1px solid var(--border-color);border-radius:var(--radius-md);font-size:13px;font-weight:600;cursor:pointer;transition:var(--transition-smooth);box-shadow:var(--shadow-sm);" onmouseover="this.style.background='var(--bg-secondary)'" onmouseout="this.style.background='var(--bg-card)'">
+        <button onclick="window.location.hash='#/collection'" id="collection-nav-btn" class="nav-btn nav-btn-secondary">
           <i class="ti ti-bookmark" style="color:#f59e0b;"></i> Коллекция
           <span id="fav-nav-count" style="background:#f59e0b;color:#fff;border-radius:10px;padding:1px 7px;font-size:11px;display:none;"></span>
         </button>
-        <div id="catalog-stats-block" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; background: var(--bg-card); border: 1px solid var(--border-light); padding: 10px 14px; border-radius: var(--radius-lg); font-size: 11px; box-shadow: var(--shadow-sm); min-width: 280px;"></div>
       </div>
     </div>
+
+    <div id="catalog-stats-block" class="stats-strip"></div>
 
     <div class="controls">
       <div class="search-wrap">
         <i class="ti ti-search" aria-hidden="true"></i>
         <input id="search-input" type="text" placeholder="Поиск (название, диета, регион, среда, опечатки...)" />
       </div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap" id="category-filters"></div>
+    </div>
+
+    <div class="filters-row">
+      <span class="filters-row-label"><i class="ti ti-category-2"></i> Категория</span>
+      <div id="category-filters"></div>
+      <div class="filters-row-spacer"></div>
       <select id="sort-select" class="sort-select">
         <option value="alphabet">По алфавиту (А-Я)</option>
         <option value="size-desc">По размеру (Гиганты)</option>
@@ -1037,6 +1210,12 @@
         <i class="ti ti-adjustments-horizontal"></i> Фильтры
         <span class="filter-active-badge" id="filter-badge" style="display:none;">0</span>
       </button>
+    </div>
+
+    <div class="active-filters-bar" id="active-filters-bar">
+      <span class="active-filters-label">Активные фильтры:</span>
+      <div id="active-filters-chips" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+      <button class="active-filters-clear" onclick="clearAllFilters()">Сбросить всё</button>
     </div>
 
     <!-- Панель расширенного фильтра -->
@@ -1399,12 +1578,12 @@ function calculateCatalogStats(){
   });
 
   statsBox.innerHTML = `
-    <div><b>Всего видов:</b> ${totalCount}</div>
-    <div><b>Периодов:</b> ${uniqueEras}</div>
-    <div><b>Гигант:</b> ${largest ? largest.name : '—'}</div>
-    <div><b>Древнейший:</b> ${oldest ? oldest.name : '—'}</div>
-    <div><b>Хищник-титан:</b> ${topPredator ? topPredator.name : '—'}</div>
-    <div><b>Микро-вид:</b> ${smallest ? smallest.name : '—'}</div>
+    <div><b>${totalCount}</b><span>Всего видов</span></div>
+    <div><b>${uniqueEras}</b><span>Периодов</span></div>
+    <div><b>${largest ? largest.name : '—'}</b><span>Гигант</span></div>
+    <div><b>${oldest ? oldest.name : '—'}</b><span>Древнейший</span></div>
+    <div><b>${topPredator ? topPredator.name : '—'}</b><span>Хищник-титан</span></div>
+    <div><b>${smallest ? smallest.name : '—'}</b><span>Микро-вид</span></div>
   `;
 }
 
@@ -1448,7 +1627,99 @@ function toggleEraFilter(eraId){
   applyFilterAndRender();
 }
 
+function updateActiveFiltersBar(){
+  const bar = document.getElementById("active-filters-bar");
+  const chips = document.getElementById("active-filters-chips");
+  if (!bar || !chips) return;
+
+  const items = [];
+
+  selectedEras.forEach(eraId => {
+    const era = ERAS.find(e => e.id === eraId || e.cls === eraId);
+    items.push({ label: era ? era.name : eraId, onRemove: `toggleEraFilter('${eraId}')` });
+  });
+
+  if (activeCategory !== "all") {
+    const cat = CATS.find(c => c.id === activeCategory);
+    items.push({ label: cat ? cat.label : activeCategory, onRemove: `setCategory('all')` });
+  }
+
+  activeDiets.forEach(diet => {
+    items.push({ label: diet, onRemove: `toggleDiet('${diet}')` });
+  });
+
+  if (filterLengthMin > 0 || filterLengthMax < 27) {
+    items.push({ label: `Длина: ${filterLengthMin}–${filterLengthMax} м`, onRemove: `resetLengthFilter()` });
+  }
+  if (filterSpeedMin > 0 || filterSpeedMax < 50) {
+    items.push({ label: `Скорость: ${filterSpeedMin}–${filterSpeedMax} км/ч`, onRemove: `resetSpeedFilter()` });
+  }
+  if (searchQuery.trim() !== "") {
+    items.push({ label: `Поиск: «${searchQuery.trim()}»`, onRemove: `clearSearchFilter()` });
+  }
+
+  if (items.length === 0) {
+    bar.classList.remove("visible");
+    chips.innerHTML = "";
+    return;
+  }
+
+  bar.classList.add("visible");
+  chips.innerHTML = items.map(it => `
+    <span class="active-filter-chip">
+      ${it.label}
+      <button onclick="${it.onRemove}" title="Убрать фильтр"><i class="ti ti-x"></i></button>
+    </span>
+  `).join("");
+}
+
+function resetLengthFilter(){
+  filterLengthMin = 0; filterLengthMax = 27;
+  document.getElementById("slider-length-min").value = 0;
+  document.getElementById("slider-length-max").value = 27;
+  document.getElementById("val-length").textContent = "0 — 27 м";
+  updateFilterBadge();
+  applyFilterAndRender();
+}
+function resetSpeedFilter(){
+  filterSpeedMin = 0; filterSpeedMax = 50;
+  document.getElementById("slider-speed-min").value = 0;
+  document.getElementById("slider-speed-max").value = 50;
+  document.getElementById("val-speed").textContent = "0 — 50 км/ч";
+  updateFilterBadge();
+  applyFilterAndRender();
+}
+function clearSearchFilter(){
+  searchQuery = "";
+  document.getElementById("search-input").value = "";
+  applyFilterAndRender();
+}
+
+function clearAllFilters(){
+  activeCategory = "all";
+  selectedEras.clear();
+  activeDiets.clear();
+  filterLengthMin = 0; filterLengthMax = 27;
+  filterSpeedMin = 0; filterSpeedMax = 50;
+  searchQuery = "";
+
+  document.getElementById("search-input").value = "";
+  document.querySelectorAll(".era-btn").forEach(b => b.classList.remove("active"));
+  document.querySelectorAll(".diet-btn").forEach(b => b.classList.remove("active"));
+  document.getElementById("slider-length-min").value = 0;
+  document.getElementById("slider-length-max").value = 27;
+  document.getElementById("slider-speed-min").value = 0;
+  document.getElementById("slider-speed-max").value = 50;
+  document.getElementById("val-length").textContent = "0 — 27 м";
+  document.getElementById("val-speed").textContent = "0 — 50 км/ч";
+
+  buildCategoryTabs();
+  updateFilterBadge();
+  applyFilterAndRender();
+}
+
 function applyFilterAndRender(){
+  updateActiveFiltersBar();
   let filtered = CREATURES_DATA.filter(c => {
     const matchCat = (activeCategory === "all" || c.cat === activeCategory);
     const matchEra = (selectedEras.size === 0 || selectedEras.has(c.eraClass));
@@ -1530,13 +1801,13 @@ function _buildCard(c, index) {
         <div class="card-header-content">
           <h3 style="margin:0;font-size:17px;font-weight:700;">${c.name}</h3>
           <p style="margin:2px 0 0;font-size:13px;color:var(--text-muted);font-style:italic">${c.latin}</p>
+          <div class="card-header-meta">
+            <span class="era-badge era-badge-color ${c.eraClass}">
+              <i class="ti ti-clock" style="font-size:12px;"></i> ${c.era} (${c.mya} млн лет)
+            </span>
+          </div>
         </div>
         <i class="ti ${CAT_ICON[c.cat]} card-header-icon" aria-hidden="true"></i>
-      </div>
-      <div style="position:relative;z-index:1;">
-        <span class="era-badge era-badge-color ${c.eraClass}">
-          <i class="ti ti-clock" style="font-size:12px;"></i> ${c.era} период (${c.mya} млн лет назад)
-        </span>
       </div>
       <div class="stat-grid">
         <div class="stat-cell">
@@ -2465,3 +2736,5 @@ document.addEventListener("keydown", (e) => {
   </script>
 </body>
 </html>
+
+
