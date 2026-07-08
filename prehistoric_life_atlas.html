@@ -504,9 +504,26 @@
       align-items: center;
       justify-content: flex-end;
       transition: var(--transition-smooth);
+      flex-shrink: 0;
     }
-    .sv-human i { font-size: 32px; color: #ef4444; line-height: 1; }
+    .sv-human svg { height: 28px; width: auto; display: block; }
+    .sv-human span, .sv-creature span { white-space: nowrap; }
     .sv-creature svg, .sv-creature img { fill: var(--primary); opacity: 0.85; max-height: 115px; }
+    .sv-row {
+      display: flex;
+      align-items: flex-end;
+      gap: clamp(20px, 10vw, 50px);
+      width: 100%;
+      max-width: 100%;
+      justify-content: center;
+      padding-bottom: 4px;
+      box-sizing: border-box;
+    }
+    @media (max-width: 480px) {
+      .size-visualizer { padding: 0 6px; }
+      .sv-row { gap: 16px; }
+      .sv-human span, .sv-creature span { font-size: 9px !important; }
+    }
 
     /* Просмотр статьи */
     .article-view {
@@ -2142,14 +2159,21 @@ function buildArticlePage(c){
   const visualizer = document.getElementById("art-visualizer");
   const humanHeight = 1.75;
   const ratio = (c.numerical.lengthM / humanHeight);
-  const creatureHeightPx = Math.min(Math.max(28 * ratio, 12), 125);
+  const containerWidth = visualizer.clientWidth || 300;
+  // Силуэт существа имеет соотношение сторон viewBox 100x50 (2:1),
+  // поэтому его ширина = 2 * высота. Ограничиваем высоту так,
+  // чтобы ширина не выходила за пределы контейнера ни на одном экране.
+  const reservedForHumanAndGaps = 90;
+  const maxWidthForCreature = Math.max(containerWidth - reservedForHumanAndGaps, 60);
+  const maxHeightFromWidth = maxWidthForCreature / 2;
+  const creatureHeightPx = Math.min(Math.max(28 * ratio, 12), 125, maxHeightFromWidth);
 
   visualizer.innerHTML = `
     <div class="sv-ground"></div>
-    <div style="display:flex; align-items:flex-end; gap:50px; width:100%; justify-content:center; padding-bottom:4px;">
+    <div class="sv-row">
       <div class="sv-human">
         <span style="font-size:10px; color:var(--text-muted); font-weight:600; margin-bottom:2px;">1.75 м</span>
-        <i class="ti ti-user-scan"></i>
+        <svg viewBox="0 0 24 24" fill="#ef4444"><circle cx="12" cy="5" r="3"/><path d="M6 21v-7a6 6 0 0 1 12 0v7z"/></svg>
       </div>
       <div class="sv-creature" style="color: var(--primary);">
         <span style="font-size:10px; color:var(--text-main); font-weight:700; margin-bottom:2px;">${c.numerical.lengthM} м</span>
@@ -2248,6 +2272,7 @@ function getNounForm(number, one, two, five) {
 const PERIODS_DATA = {
   precambrian: {
     eon: "Докембрий",
+    icon: "ti-atom",
     climate: "Атмосфера практически без кислорода. Поверхность планеты — раскалённая магма, постепенно остывающая. Позднее — глобальные оледенения («Снежный ком Земли»), охватывавшие планету от полюса до экватора.",
     events: [
       "Формирование Земли из протопланетного облака (~4,6 млрд лет назад)",
@@ -2259,6 +2284,7 @@ const PERIODS_DATA = {
   },
   cambrian: {
     eon: "Палеозой",
+    icon: "ti-bubbles",
     climate: "Тёплый и влажный климат. Уровень CO₂ в несколько раз выше современного. Суперконтинент Гондвана в южном полушарии. Моря мелководные и тёплые.",
     events: [
       "Кембрийский взрыв: стремительное появление всех основных типов животных (~541 млн лет назад)",
@@ -2270,6 +2296,7 @@ const PERIODS_DATA = {
   },
   ordovician: {
     eon: "Палеозой",
+    icon: "ti-waves",
     climate: "Тёплый парниковый климат сменяется похолоданием к концу периода. Мощное оледенение Гондваны. Уровень мирового океана значительно падает.",
     events: [
       "Великая ордовикская радиация — стремительный рост биоразнообразия морей",
@@ -2280,6 +2307,7 @@ const PERIODS_DATA = {
   },
   silurian: {
     eon: "Палеозой",
+    icon: "ti-fish",
     climate: "Тёплый стабильный климат после ледниковья. Уровень океана поднимается. Обширные тропические рифы. Атмосфера обогащается кислородом.",
     events: [
       "Восстановление биоразнообразия после ордовикского вымирания",
@@ -2291,6 +2319,7 @@ const PERIODS_DATA = {
   },
   devonian: {
     eon: "Палеозой",
+    icon: "ti-tree",
     climate: "Тёплый и засушливый климат на континентах. Активное горообразование. Появление первых лесов из древовидных папоротников и хвощей. В конце — резкое похолодание.",
     events: [
       "Девонский взрыв рыб: расцвет лопастепёрых, акул и панцирных рыб-плакодерм",
@@ -2302,6 +2331,7 @@ const PERIODS_DATA = {
   },
   carboniferous: {
     eon: "Палеозой",
+    icon: "ti-plant",
     climate: "Жаркий и влажный тропический климат. Гигантские леса из хвощей, плаунов и папоротников покрывают сушу. Высокий уровень кислорода в атмосфере — до 35% (сейчас 21%).",
     events: [
       "Формирование каменноугольных лесов — источника современных угольных пластов",
@@ -2313,6 +2343,7 @@ const PERIODS_DATA = {
   },
   permian: {
     eon: "Палеозой",
+    icon: "ti-flame",
     climate: "Формирование суперконтинента Пангея. Климат становится всё более засушливым и континентальным. Обширные пустыни в центре материка. В конце — вулканические катастрофы.",
     events: [
       "Расцвет синапсид — звероподобных рептилий, предков млекопитающих",
@@ -2324,6 +2355,7 @@ const PERIODS_DATA = {
   },
   triassic: {
     eon: "Мезозой",
+    icon: "ti-sun",
     climate: "Жаркий и засушливый климат. Пангея начинает раскалываться. Оба полюса свободны ото льда. Быстрое восстановление биосферы после пермской катастрофы.",
     events: [
       "Появление первых динозавров (~230 млн лет назад) — ещё небольших и немногочисленных",
@@ -2335,6 +2367,7 @@ const PERIODS_DATA = {
   },
   jurassic: {
     eon: "Мезозой",
+    icon: "ti-dinosaur",
     climate: "Тёплый парниковый климат без полярных льдов. Пангея раскалывается на Лавразию и Гондвану. Обширные мелководные моря. Влажные тропические леса покрывают большую часть суши.",
     events: [
       "Золотой век динозавров: зауроподы (Диплодок, Брахиозавр), стегозавриды, аллозавриды",
@@ -2346,6 +2379,7 @@ const PERIODS_DATA = {
   },
   cretaceous: {
     eon: "Мезозой",
+    icon: "ti-meteor",
     climate: "Самый тёплый период за последние 200 млн лет. Уровень моря на 200 м выше современного. Внутренние моря разделяют континенты. Полярные регионы покрыты лесами.",
     events: [
       "Тираннозавр рекс и трицератопс — вершина эволюции наземных рептилий",
@@ -2357,6 +2391,7 @@ const PERIODS_DATA = {
   },
   paleogene: {
     eon: "Кайнозой",
+    icon: "ti-feather",
     climate: "Постепенное похолодание после «горячего» мелового периода. Антарктида начинает покрываться льдом. Расширение тропических лесов в тёплые эпохи, затем их сокращение.",
     events: [
       "Млекопитающие быстро занимают освободившиеся после динозавров экологические ниши",
@@ -2368,6 +2403,7 @@ const PERIODS_DATA = {
   },
   neogene: {
     eon: "Кайнозой",
+    icon: "ti-mountains",
     climate: "Глобальное похолодание, расширение ледников. Формирование современных экосистем: саванн, степей, тундр. Мегалодон вымирает по мере охлаждения океанов.",
     events: [
       "Расцвет мегафауны: мастодонты, саблезубые кошки, гигантские носороги",
@@ -2379,6 +2415,7 @@ const PERIODS_DATA = {
   },
   quaternary: {
     eon: "Кайнозой",
+    icon: "ti-snowflake",
     climate: "Ледниковые циклы чередуются каждые ~100 000 лет. Ледники покрывают треть суши. В межледниковья климат теплеет. Современный межледниковый период начался ~11 700 лет назад.",
     events: [
       "Эпоха мегафауны: мамонты, шерстистые носороги, пещерные медведи и львы",
