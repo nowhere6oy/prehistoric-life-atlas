@@ -203,6 +203,143 @@
       border-color: var(--text-main);
     }
 
+    /* ─── Кнопка «Фильтры» + выпадающая плашка ─── */
+    .filters-row { position: relative; }
+    .adv-filter-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      background: var(--bg-card);
+      color: var(--text-muted);
+      font-size: 14px;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      white-space: nowrap;
+    }
+    .adv-filter-toggle:hover { background: var(--bg-secondary); }
+    .adv-filter-toggle.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .filter-active-badge {
+      background: #fff;
+      color: var(--primary);
+      border-radius: 10px;
+      min-width: 17px;
+      height: 17px;
+      padding: 0 5px;
+      font-size: 11px;
+      font-weight: 700;
+      align-items: center;
+      justify-content: center;
+      line-height: 17px;
+      text-align: center;
+    }
+
+    .adv-filter-panel {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      z-index: 60;
+      width: 340px;
+      max-width: calc(100vw - 32px);
+      max-height: 70vh;
+      overflow-y: auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 12px 32px rgba(15,23,42,0.16);
+      padding: 16px;
+    }
+    .adv-filter-panel.open { display: block; animation: advFilterIn .15s ease-out; }
+    @keyframes advFilterIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .adv-filter-row { margin-bottom: 16px; }
+    .adv-filter-row:last-of-type { margin-bottom: 0; }
+    .adv-filter-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 10px;
+    }
+    .diet-btn {
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 6px 12px;
+      font-size: 12.5px;
+      background: var(--bg-secondary);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+    .diet-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .adv-filter-row .slider-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .adv-filter-row input[type="range"] {
+      flex: 1;
+      min-width: 70px;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+    .adv-filter-row .slider-val {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      width: 100%;
+      margin-top: 2px;
+    }
+    .adv-filter-reset {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 9px 14px;
+      background: var(--bg-secondary);
+      color: var(--text-main);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+    .adv-filter-reset:hover { background: var(--bg-card); border-color: var(--text-main); }
+
+    @media (prefers-color-scheme: dark) {
+      .filter-active-badge { background: rgba(255,255,255,0.9); }
+    }
+    @media (max-width: 720px) {
+      .adv-filter-panel {
+        position: fixed;
+        left: 16px;
+        right: 16px;
+        top: auto;
+        bottom: 16px;
+        width: auto;
+        max-width: none;
+        max-height: 60vh;
+      }
+    }
+
     /* ─── Избранное / Коллекция ─── */
     .fav-btn {
       position: absolute;
@@ -1428,6 +1565,25 @@ function toggleAdvFilter() {
   panel.classList.toggle("open");
   btn.classList.toggle("active");
 }
+
+document.addEventListener("click", (e) => {
+  const panel = document.getElementById("adv-filter-panel");
+  const btn = document.getElementById("adv-filter-toggle-btn");
+  if (!panel || !panel.classList.contains("open")) return;
+  if (panel.contains(e.target) || btn.contains(e.target)) return;
+  panel.classList.remove("open");
+  btn.classList.remove("active");
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key !== "Escape") return;
+  const panel = document.getElementById("adv-filter-panel");
+  const btn = document.getElementById("adv-filter-toggle-btn");
+  if (panel && panel.classList.contains("open")) {
+    panel.classList.remove("open");
+    btn.classList.remove("active");
+  }
+});
 
 function buildDietButtons() {
   const diets = [...new Set(CREATURES_DATA.map(c => c.anatomy.diet))].sort();
