@@ -1201,6 +1201,7 @@
     }
     .filters-row-spacer { flex: 1; min-width: 0; }
     .filters-row #category-filters { display: flex; gap: 6px; flex-wrap: wrap; }
+    .filters-row-actions { display: flex; align-items: center; gap: 10px; }
 
     /* ─── Единая строка активных фильтров ─── */
     .active-filters-bar {
@@ -1275,8 +1276,30 @@
       .stats-strip > div:nth-child(n+4) { border-top: 1px solid var(--border-light); }
       .controls { flex-direction: column; align-items: stretch; }
       .search-wrap { min-width: 0; }
-      .filters-row { justify-content: flex-start; }
+
+      .filters-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+      .filters-row-label { padding-left: 2px; }
+      .filters-row #category-filters {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+      }
+      .filters-row #category-filters .filter-btn {
+        justify-content: center;
+        text-align: center;
+      }
+      .filters-row-spacer { display: none; }
+      .filters-row-actions {
+        border-top: 1px solid var(--border-light);
+        padding-top: 10px;
+        gap: 8px;
+      }
       .sort-select { flex: 1; min-width: 0; }
+      .adv-filter-toggle { flex-shrink: 0; }
     }
     @media (prefers-color-scheme: dark) {
       .active-filter-chip { background: rgba(59,130,246,0.18); }
@@ -1324,16 +1347,18 @@
       <span class="filters-row-label"><i class="ti ti-category-2"></i> Категория</span>
       <div id="category-filters"></div>
       <div class="filters-row-spacer"></div>
-      <select id="sort-select" class="sort-select">
-        <option value="alphabet">По алфавиту (А-Я)</option>
-        <option value="size-desc">По размеру (Гиганты)</option>
-        <option value="size-asc">По размеру (Мелкие)</option>
-        <option value="chrono">Хронология (От древних)</option>
-      </select>
-      <button class="adv-filter-toggle" id="adv-filter-toggle-btn" onclick="toggleAdvFilter()">
-        <i class="ti ti-adjustments-horizontal"></i> Фильтры
-        <span class="filter-active-badge" id="filter-badge" style="display:none;">0</span>
-      </button>
+      <div class="filters-row-actions">
+        <select id="sort-select" class="sort-select">
+          <option value="alphabet">По алфавиту (А-Я)</option>
+          <option value="size-desc">По размеру (Гиганты)</option>
+          <option value="size-asc">По размеру (Мелкие)</option>
+          <option value="chrono">Хронология (От древних)</option>
+        </select>
+        <button class="adv-filter-toggle" id="adv-filter-toggle-btn" onclick="toggleAdvFilter()">
+          <i class="ti ti-adjustments-horizontal"></i> Фильтры
+          <span class="filter-active-badge" id="filter-badge" style="display:none;">0</span>
+        </button>
+      </div>
     </div>
 
     <div class="active-filters-bar" id="active-filters-bar">
