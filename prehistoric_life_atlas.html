@@ -240,44 +240,41 @@
       text-align: center;
     }
 
+    /* ─── Компактная встроенная панель доп. фильтров (не всплывающая) ─── */
     .adv-filter-panel {
       display: none;
-      position: absolute;
-      top: calc(100% + 8px);
-      right: 0;
-      z-index: 60;
-      width: 340px;
-      max-width: calc(100vw - 32px);
-      max-height: 70vh;
-      overflow-y: auto;
-      background: var(--bg-card);
+      background: var(--bg-secondary);
       border: 1px solid var(--border-light);
-      border-radius: var(--radius-lg);
-      box-shadow: 0 12px 32px rgba(15,23,42,0.16);
-      padding: 16px;
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      margin-top: 10px;
     }
-    .adv-filter-panel.open { display: block; animation: advFilterIn .15s ease-out; }
+    .adv-filter-panel.open { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; animation: advFilterIn .15s ease-out; }
     @keyframes advFilterIn {
-      from { opacity: 0; transform: translateY(-6px); }
+      from { opacity: 0; transform: translateY(-4px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    .adv-filter-row { margin-bottom: 16px; }
-    .adv-filter-row:last-of-type { margin-bottom: 0; }
+    .adv-filter-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
     .adv-filter-label {
       display: flex;
       align-items: center;
-      gap: 6px;
-      font-size: 13px;
+      gap: 5px;
+      font-size: 12px;
       font-weight: 700;
       color: var(--text-main);
-      margin-bottom: 10px;
+      white-space: nowrap;
     }
     .diet-btn {
       border: 1px solid var(--border-color);
       border-radius: 20px;
-      padding: 6px 12px;
-      font-size: 12.5px;
-      background: var(--bg-secondary);
+      padding: 4px 10px;
+      font-size: 12px;
+      background: var(--bg-card);
       color: var(--text-muted);
       cursor: pointer;
       transition: var(--transition-smooth);
@@ -290,103 +287,44 @@
     .adv-filter-row .slider-wrap {
       display: flex;
       align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
+      gap: 6px;
     }
     .adv-filter-row input[type="range"] {
-      flex: 1;
-      min-width: 70px;
+      width: 64px;
       accent-color: var(--primary);
       cursor: pointer;
     }
     .adv-filter-row .slider-val {
-      font-size: 12.5px;
+      font-size: 12px;
       color: var(--text-muted);
       white-space: nowrap;
-      width: 100%;
-      margin-top: 2px;
     }
     .adv-filter-reset {
-      width: 100%;
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
-      gap: 6px;
+      gap: 5px;
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      padding: 9px 14px;
-      background: var(--bg-secondary);
-      color: var(--text-main);
-      font-size: 13px;
+      padding: 6px 11px;
+      background: var(--bg-card);
+      color: var(--text-muted);
+      font-size: 12px;
       font-weight: 600;
       cursor: pointer;
       transition: var(--transition-smooth);
+      margin-left: auto;
     }
-    .adv-filter-reset:hover { background: var(--bg-card); border-color: var(--text-main); }
+    .adv-filter-reset:hover { color: var(--text-main); border-color: var(--text-main); }
 
     @media (prefers-color-scheme: dark) {
       .filter-active-badge { background: rgba(255,255,255,0.9); }
+      .diet-btn { background: var(--bg-card); }
     }
-
-    .adv-filter-backdrop {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.45);
-      z-index: 55;
-    }
-    .adv-filter-backdrop.open { display: block; animation: advFilterFade .15s ease-out; }
-    @keyframes advFilterFade { from { opacity: 0; } to { opacity: 1; } }
-
-    .adv-filter-panel-header { display: none; }
 
     @media (max-width: 720px) {
-      .adv-filter-panel {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        right: auto;
-        bottom: auto;
-        transform: translate(-50%, -50%);
-        width: min(92vw, 380px);
-        max-width: none;
-        max-height: 80vh;
-        z-index: 61;
-      }
-      .adv-filter-panel.open { animation: advFilterInCentered .15s ease-out; }
-      .adv-filter-panel-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 14px;
-        padding-bottom: 12px;
-        border-bottom: 1px solid var(--border-light);
-      }
-      .adv-filter-panel-title {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 15px;
-        font-weight: 700;
-        color: var(--text-main);
-      }
-      .adv-filter-close {
-        width: 28px;
-        height: 28px;
-        border-radius: 50%;
-        border: none;
-        background: var(--bg-secondary);
-        color: var(--text-muted);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        padding: 0;
-      }
-    }
-    @keyframes advFilterInCentered {
-      from { opacity: 0; transform: translate(-50%, -50%) scale(0.96); }
-      to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      .adv-filter-panel.open { gap: 12px; }
+      .adv-filter-row { width: 100%; }
+      .adv-filter-reset { margin-left: 0; width: 100%; justify-content: center; }
     }
 
     /* ─── Избранное / Коллекция ─── */
@@ -1404,15 +1342,8 @@
       <button class="active-filters-clear" onclick="clearAllFilters()">Сбросить всё</button>
     </div>
 
-    <!-- Затемнение фона для мобильной модалки фильтров -->
-    <div class="adv-filter-backdrop" id="adv-filter-backdrop"></div>
-
-    <!-- Панель расширенного фильтра -->
+    <!-- Панель расширенного фильтра (компактная, встроенная в поток страницы) -->
     <div class="adv-filter-panel" id="adv-filter-panel">
-      <div class="adv-filter-panel-header">
-        <span class="adv-filter-panel-title"><i class="ti ti-adjustments-horizontal"></i> Фильтры</span>
-        <button class="adv-filter-close" onclick="toggleAdvFilter()" aria-label="Закрыть"><i class="ti ti-x"></i></button>
-      </div>
       <div class="adv-filter-row">
         <span class="adv-filter-label"><i class="ti ti-meat"></i> Диета</span>
         <div style="display:flex;gap:6px;flex-wrap:wrap;" id="diet-filter-btns"></div>
@@ -1435,9 +1366,7 @@
           <span class="slider-val" id="val-speed">0 — 50 км/ч</span>
         </div>
       </div>
-      <div class="adv-filter-row" style="justify-content:flex-end;">
-        <button class="adv-filter-reset" onclick="resetAdvFilters()"><i class="ti ti-refresh"></i> Сбросить фильтры</button>
-      </div>
+      <button class="adv-filter-reset" onclick="resetAdvFilters()"><i class="ti ti-refresh"></i> Сбросить фильтры</button>
     </div>
 
     <p style="font-size:13px;color:var(--text-muted);margin:0 0 1rem; font-weight: 500;" id="counter-lbl">0 видов в каталоге</p>
@@ -1618,32 +1547,26 @@ let filterSpeedMin = 0, filterSpeedMax = 50;
 function toggleAdvFilter() {
   const panel = document.getElementById("adv-filter-panel");
   const btn = document.getElementById("adv-filter-toggle-btn");
-  const backdrop = document.getElementById("adv-filter-backdrop");
   panel.classList.toggle("open");
   btn.classList.toggle("active");
-  backdrop.classList.toggle("open");
 }
 
 document.addEventListener("click", (e) => {
   const panel = document.getElementById("adv-filter-panel");
   const btn = document.getElementById("adv-filter-toggle-btn");
-  const backdrop = document.getElementById("adv-filter-backdrop");
   if (!panel || !panel.classList.contains("open")) return;
   if (panel.contains(e.target) || btn.contains(e.target)) return;
   panel.classList.remove("open");
   btn.classList.remove("active");
-  backdrop.classList.remove("open");
 });
 
 document.addEventListener("keydown", (e) => {
   if (e.key !== "Escape") return;
   const panel = document.getElementById("adv-filter-panel");
   const btn = document.getElementById("adv-filter-toggle-btn");
-  const backdrop = document.getElementById("adv-filter-backdrop");
   if (panel && panel.classList.contains("open")) {
     panel.classList.remove("open");
     btn.classList.remove("active");
-    backdrop.classList.remove("open");
   }
 });
 
